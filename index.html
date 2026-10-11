@@ -812,11 +812,6 @@
               Belum Selesai <span id="badge-belum"
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 rounded-full">0</span>
             </button>
-            <button onclick="setFilter('Selesai')" id="tab-Selesai"
-              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
-              Selesai <span id="badge-selesai"
-                class="ml-1 text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 rounded-full">0</span>
-            </button>
           </div>
 
           <!-- Minimalist Target Selector: WhatsApp & G-Messages (App / Web) -->
@@ -1295,8 +1290,9 @@
     // Set Filter Status Tab
     function setFilter(status) {
       currentFilter = status;
-      ['ALL', 'Belum', 'Selesai'].forEach(tab => {
+      ['ALL', 'Belum'].forEach(tab => {
         const btn = document.getElementById(`tab-${tab}`);
+        if (!btn) return;
         if (tab === status) {
           btn.className = 'filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white';
         } else {
@@ -1354,6 +1350,8 @@
       }
 
       const filtered = dataset.filter(item => {
+        // Item Selesai tidak pernah tampil di tabel utama — sudah ada di Peserta Tersambung
+        if (item.status === 'Selesai') return false;
         const matchesStatus = (currentFilter === 'ALL') || (item.status === currentFilter);
         const matchesSearch = !searchTerm ||
           String(item.nama).toLowerCase().includes(searchTerm) ||
@@ -1594,8 +1592,7 @@
       document.getElementById('total-selesai').innerText = selesaiCount;
       document.getElementById('total-belum').innerText = belumCount;
 
-      document.getElementById('badge-all').innerText = total;
-      document.getElementById('badge-selesai').innerText = selesaiCount;
+      document.getElementById('badge-all').innerText = belumCount;
       document.getElementById('badge-belum').innerText = belumCount;
 
       document.getElementById('nominal-selesai').innerText = formatRupiah(nominalSelesai);
