@@ -1119,7 +1119,7 @@
       return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
     }
 
-    // Bersihkan nomor handphone (Format internasional Indonesia 62xxx)
+    // Bersihkan nomor handphone (Format internasional Indonesia 62xxx — tanpa +)
     function cleanPhoneNumber(hp) {
       let cleaned = String(hp || '').replace(/[^0-9]/g, '');
       if (cleaned.startsWith('0')) {
@@ -1128,6 +1128,18 @@
         cleaned = '62' + cleaned;
       }
       return cleaned;
+    }
+
+    // Format nomor ke +62xxx (untuk G-Messages)
+    function cleanPhoneNumberGM(hp) {
+      let cleaned = String(hp || '').replace(/[^0-9]/g, '');
+      if (cleaned.startsWith('0')) {
+        cleaned = '62' + cleaned.slice(1);
+      } else if (cleaned.startsWith('8')) {
+        cleaned = '62' + cleaned;
+      }
+      // Jika sudah dimulai dengan 62, tetap tambahkan +
+      return '+' + cleaned;
     }
 
     // Format avatar inisial
@@ -1541,7 +1553,7 @@
       if (!target) return;
 
       const msg = buildMessage(target);
-      const formattedHp = cleanPhoneNumber(target.noHp);
+      const formattedHpGM = cleanPhoneNumberGM(target.noHp); // Format +62xxx
       const encodedMsg = encodeURIComponent(msg);
 
       // Salin pesan ke clipboard
@@ -1551,13 +1563,13 @@
       markDone(target.id);
 
       if (gmMode === 'web') {
-        // Langsung buka Google Messages Web ke tampilan chat baru di tab baru
-        window.open('https://messages.google.com/web/conversations/new', '_blank');
-        showToast(`Membuka Google Messages Web untuk ${target.nama}. Teks siap di-Paste!`, 'success');
+        // Buka Google Messages Web langsung ke chat dengan nomor +62xxx
+        window.open(`https://messages.google.com/web/conversations/new?q=${encodeURIComponent(formattedHpGM)}`, '_blank');
+        showToast(`Membuka Google Messages Web untuk ${target.nama} (${formattedHpGM}). Teks siap di-Paste!`, 'success');
       } else {
-        // Langsung arahkan ke kolom chat Google Messages (via protokol sms:)
-        window.location.href = `sms:${formattedHp}?body=${encodedMsg}`;
-        showToast(`Membuka chat Google Messages untuk ${target.nama}...`, 'success');
+        // Langsung arahkan ke kolom chat Google Messages (via protokol sms: dengan +62)
+        window.location.href = `sms:${formattedHpGM}?body=${encodedMsg}`;
+        showToast(`Membuka chat Google Messages untuk ${target.nama} (${formattedHpGM})...`, 'success');
       }
     }
 
