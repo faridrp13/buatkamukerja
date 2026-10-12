@@ -292,12 +292,14 @@
                 class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
                 3</div>
               <div class="flex-1 bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3">
-                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Atur Template Pesan</p>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Edit teks template di panel kanan
-                  menggunakan variabel <code
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Atur & Pilih Template Pesan (Sistem ON/OFF)</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Pilih <strong>Format 1</strong> (Tunggakan), <strong>Format 2</strong> (REHAB), atau <strong>Format 3</strong> (VA & Kanal). Variabel otomatis: <code
                     class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{nama}</code>, <code
-                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{noKartu}</code>, <code
-                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{nominal}</code>.</p>
+                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{no kartu}</code>, <code
+                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{nominal}</code>, <code
+                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{date today}</code>, <code
+                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{month year today}</code>, <code
+                    class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-[10px]">{no kartu.slice 2}</code>.</p>
               </div>
             </div>
             <div class="flex gap-3 items-start">
@@ -753,38 +755,119 @@
         </div>
       </div>
 
-      <!-- Quick Template Settings (1 col on large screen) -->
+      <!-- Template Pesan Card (Sistem 3 Format ON/OFF) -->
       <div
         class="glass-card bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
         <div>
+          <!-- Header Card -->
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-sm font-bold flex items-center gap-2">
               <i class="fa-solid fa-message text-brand-600"></i> Template Pesan
             </h2>
-            <button onclick="resetTemplateDefault()" title="Reset ke Template Default"
-              class="text-[11px] text-slate-400 hover:text-brand-600 transition">
-              <i class="fa-solid fa-rotate-left"></i> Reset
+            <button onclick="resetActiveTemplateDefault()" title="Reset Format Aktif ke Teks Default"
+              class="text-[11px] text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition flex items-center gap-1">
+              <i class="fa-solid fa-rotate-left"></i> Reset Format
             </button>
           </div>
 
-          <p class="text-[11px] text-slate-400 dark:text-slate-500 mb-2">
-            Tag variabel:
-            <button onclick="insertTag('{nama}')"
-              class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 transition">{nama}</button>
-            <button onclick="insertTag('{noKartu}')"
-              class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 transition">{noKartu}</button>
-            <button onclick="insertTag('{nominal}')"
-              class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 transition">{nominal}</button>
-          </p>
+          <!-- 3 Format Template Selector (Sistem ON / OFF) -->
+          <div class="mb-3">
+            <p class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Pilih Format Aktif (Sistem ON / OFF):</p>
+            <div class="grid grid-cols-3 gap-2">
+              
+              <!-- Format 1 Option Button -->
+              <button type="button" onclick="selectTemplateFormat(1)" id="tpl-card-1"
+                class="tpl-option-btn p-2.5 rounded-2xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-brand-50/70 dark:bg-brand-950/50 border-brand-500 ring-2 ring-brand-500/30 shadow-sm">
+                <div>
+                  <div class="flex items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Format 1</span>
+                    <span id="tpl-status-badge-1" class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-500 text-white shadow-xs">ON</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">Tunggakan</p>
+                </div>
+                <!-- Mini Toggle Switch Track -->
+                <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <span class="text-[9px] font-medium text-slate-400">Status</span>
+                  <div id="tpl-toggle-track-1" class="w-7 h-4 bg-emerald-500 rounded-full relative transition-colors p-0.5">
+                    <div id="tpl-toggle-thumb-1" class="w-3 h-3 bg-white rounded-full transition-transform translate-x-3 shadow-xs"></div>
+                  </div>
+                </div>
+              </button>
 
-          <textarea id="custom-message-template" rows="4"
-            class="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-brand-500 leading-relaxed text-slate-700 dark:text-slate-200 transition"
-            oninput="saveTemplate()"></textarea>
+              <!-- Format 2 Option Button -->
+              <button type="button" onclick="selectTemplateFormat(2)" id="tpl-card-2"
+                class="tpl-option-btn p-2.5 rounded-2xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 opacity-75 hover:opacity-100">
+                <div>
+                  <div class="flex items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Format 2</span>
+                    <span id="tpl-status-badge-2" class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400">OFF</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">Cicilan REHAB</p>
+                </div>
+                <!-- Mini Toggle Switch Track -->
+                <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <span class="text-[9px] font-medium text-slate-400">Status</span>
+                  <div id="tpl-toggle-track-2" class="w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5">
+                    <div id="tpl-toggle-thumb-2" class="w-3 h-3 bg-white rounded-full transition-transform translate-x-0 shadow-xs"></div>
+                  </div>
+                </div>
+              </button>
+
+              <!-- Format 3 Option Button -->
+              <button type="button" onclick="selectTemplateFormat(3)" id="tpl-card-3"
+                class="tpl-option-btn p-2.5 rounded-2xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 opacity-75 hover:opacity-100">
+                <div>
+                  <div class="flex items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Format 3</span>
+                    <span id="tpl-status-badge-3" class="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400">OFF</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">VA & Detail</p>
+                </div>
+                <!-- Mini Toggle Switch Track -->
+                <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <span class="text-[9px] font-medium text-slate-400">Status</span>
+                  <div id="tpl-toggle-track-3" class="w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5">
+                    <div id="tpl-toggle-thumb-3" class="w-3 h-3 bg-white rounded-full transition-transform translate-x-0 shadow-xs"></div>
+                  </div>
+                </div>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Variable Tags Pill Bar -->
+          <div class="mb-2">
+            <span class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 block mb-1">Sisipkan Tag Variabel:</span>
+            <div class="flex flex-wrap gap-1">
+              <button onclick="insertTag('{nama}')" title="Nama Peserta"
+                class="px-1.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 dark:hover:bg-slate-700 transition">{nama}</button>
+              <button onclick="insertTag('{no kartu}')" title="Nomor Kartu BPJS"
+                class="px-1.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 dark:hover:bg-slate-700 transition">{no kartu}</button>
+              <button onclick="insertTag('{nominal}')" title="Nominal Tagihan"
+                class="px-1.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 font-mono text-[10px] text-brand-600 hover:bg-brand-50 dark:hover:bg-slate-700 transition">{nominal}</button>
+              <button onclick="insertTag('{date today}')" title="Tanggal Hari Ini (Otomatis)"
+                class="px-1.5 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 transition">{date today}</button>
+              <button onclick="insertTag('{month year today}')" title="Bulan & Tahun Hari Ini"
+                class="px-1.5 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 font-mono text-[10px] text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition">{month year today}</button>
+              <button onclick="insertTag('{no kartu.slice 2}')" title="11 Digit Terakhir Kartu untuk Virtual Account"
+                class="px-1.5 py-0.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 font-mono text-[10px] text-purple-600 dark:text-purple-400 hover:bg-purple-100 transition">{no kartu.slice 2}</button>
+            </div>
+          </div>
+
+          <!-- Textarea Editor -->
+          <textarea id="custom-message-template" rows="5"
+            class="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-brand-500 leading-relaxed text-slate-700 dark:text-slate-200 transition font-sans resize-y"
+            oninput="saveCurrentTemplate()"></textarea>
         </div>
 
+        <!-- Footer Info -->
         <div
-          class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center text-[11px] text-slate-400">
-          <span>Otomatis disimpan</span>
+          class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+          <span id="tpl-active-info" class="flex items-center gap-1.5 font-medium text-slate-600 dark:text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Format 1 Aktif (ON)
+          </span>
+          <span class="text-[10px] text-slate-400">Otomatis tersimpan</span>
         </div>
       </div>
 
@@ -800,7 +883,7 @@
 
         <!-- Filter Tabs & G-Messages Mode Selector -->
         <div class="flex flex-wrap items-center gap-3">
-          <!-- Filter Tabs -->
+          <!-- Filter Tabs: Semua - Belum Selesai - Selesai -->
           <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl w-fit">
             <button onclick="setFilter('ALL')" id="tab-ALL"
               class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white">
@@ -811,6 +894,11 @@
               class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
               Belum Selesai <span id="badge-belum"
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 rounded-full">0</span>
+            </button>
+            <button onclick="setFilter('Selesai')" id="tab-Selesai"
+              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+              Selesai <span id="badge-selesai"
+                class="ml-1 text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 rounded-full">0</span>
             </button>
           </div>
 
@@ -878,17 +966,17 @@
 
       </div>
 
-      <!-- Modern Responsive Table -->
+      <!-- Modern Responsive Table (Urutan: # - No. Kartu - Nama - No. HP - Nominal - Status - Tindakan Pengingat) -->
       <div class="overflow-x-auto">
         <table class="w-full text-xs text-left border-collapse">
           <thead>
             <tr
               class="bg-slate-50/70 dark:bg-slate-950/70 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px] border-b border-slate-100 dark:border-slate-800">
               <th class="py-3.5 px-4 text-center w-12">#</th>
-              <th class="py-3.5 px-4">Nama Pelanggan</th>
               <th class="py-3.5 px-4 font-mono">No. Kartu</th>
+              <th class="py-3.5 px-4">Nama</th>
               <th class="py-3.5 px-4 font-mono">No. HP</th>
-              <th class="py-3.5 px-4 text-right">Nominal Tagihan</th>
+              <th class="py-3.5 px-4 text-right">Nominal</th>
               <th class="py-3.5 px-4 text-center">Status</th>
               <th class="py-3.5 px-6 text-center">Tindakan Pengingat</th>
             </tr>
@@ -926,71 +1014,6 @@
 
     </div>
 
-    <!-- Section: Peserta Tersambung (Otomatis masuk saat status Selesai) -->
-    <div
-      class="glass-card bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
-
-      <!-- Section Header -->
-      <div
-        class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-base shadow-sm">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h2 class="text-base font-bold text-slate-800 dark:text-slate-100 tracking-tight">Peserta Tersambung</h2>
-              <span id="tersambung-count-badge"
-                class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">0
-                Peserta</span>
-            </div>
-            <p class="text-[11px] text-slate-400 dark:text-slate-500">Daftar pelanggan yang statusnya telah Selesai /
-              berhasil dihubungi</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <span class="text-xs text-slate-500 dark:text-slate-400">Total Nominal: <strong id="tersambung-total-nominal"
-              class="text-emerald-600 dark:text-emerald-400 font-bold font-mono">Rp 0</strong></span>
-          <button onclick="downloadHasilTersambung()"
-            class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm hover:shadow-emerald-600/20 transition flex items-center gap-1.5 active:scale-95">
-            <i class="fa-solid fa-file-excel"></i> Unduh Data Tersambung
-          </button>
-        </div>
-      </div>
-
-      <!-- Tabel Peserta Tersambung -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-xs text-left border-collapse">
-          <thead>
-            <tr class="bg-blue-600 dark:bg-blue-700 text-white font-semibold uppercase tracking-wider text-[11px]">
-              <th class="py-3 px-4 text-center w-12">No</th>
-              <th class="py-3 px-4 font-mono text-center">No Kartu</th>
-              <th class="py-3 px-4 text-center">Nama</th>
-              <th class="py-3 px-4 font-mono text-center">No HP</th>
-              <th class="py-3 px-4 text-center">Nominal</th>
-              <th class="py-3 px-4 text-center font-mono">Jam</th>
-              <th class="py-3 px-4 text-center w-16">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="tersambung-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/80">
-            <!-- Dynamic rows will render here -->
-            <tr>
-              <td colspan="7" class="text-center py-10 text-slate-400 dark:text-slate-500">
-                <div class="flex flex-col items-center justify-center gap-2">
-                  <i class="fa-solid fa-clock-rotate-left text-2xl text-slate-300 dark:text-slate-700"></i>
-                  <p class="font-medium text-xs">Belum ada peserta tersambung.</p>
-                  <p class="text-[11px] text-slate-400">Peserta dengan status Selesai akan otomatis tampil di sini.</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
   </main>
 
   <!-- Footer -->
@@ -1011,11 +1034,21 @@
     // State Aplikasi
     let dataset = [];
     let currentFilter = 'ALL';
-    const STORAGE_KEY = 'yres_modern_dataset_v2';
-    const TEMPLATE_KEY = 'yres_modern_template_v2';
+    const STORAGE_KEY = 'yres_modern_dataset_v3';
     const THEME_KEY = 'yres_theme_mode';
 
-    const DEFAULT_TEMPLATE = 'Halo {nama}, tagihan kartu {noKartu} sebesar {nominal} belum terselesaikan. Mohon melakukan pembayaran tepat waktu. Terima kasih.';
+    // 3 Format Template Default Sesuai Instruksi
+    const DEFAULT_TEMPLATES = {
+      1: 'Yth.Keluarga {nama}, No. Kartu {no kartu}, memiliki tunggakan BPJS Kesehatan sebesar {nominal} samapai dengan {date today}. Mohon segeara melakukan pembayaran melalui kanal resmi BPJS Kesehatan. Terima kasih. Info Whatsapp: 081314850792.',
+      2: 'Yth.Keluarga {nama}, No. Kartu {no kartu}. Kami BPJS Kesehatan izin mengingatkan untuk dapat segera melakukab pembayaran cicilan REHAB bulab {month year today} melalui kanal resmi. Info iuran dapat dilihat pada aplikasi Mobile JKN.\n\nInformasi lebih lanjut dapat menghubungi Call Center BPJS Kesehatan 165 (24 jam). Salam BPJS Kesehatan. Semoga sehat selalu.',
+      3: 'Yth. Keluarga Bpk/Ibu {nama}, No. Kartu {no kartu}, tunggakan BPJS Kesehatan sebesar {nominal} sampai dengan {date hari ini}. Segera lakukan pembayaran melalui kanal resmi. Info iuran dapat dilihat pada aplikasi Mobile JKN.\n\nPembayaran BPJS Kesehatan dapat melalui kanal yang tersedia:\n1. Indomaret / Alfamart / Shopee / OVO / GoPay / DANA / Kantor Pos / PT Pos (dengan menunjukkan Nomor Kartu BPJS Kesehatan)\n2. Bank / ATM / Mobile Banking melalui menu Pembayaran / M-Payment\nKode Virtual Account untuk pembayaran melalui Bank (ATM atau Mobile Banking):\n- Mandiri : 89888{no kartu.slice 2}\n- BCA / BRI / BNI : 88888{no kartu.slice 2}\n- Jika terdapat pilihan berapa bulan pembayaran, silakan pilih 1 (satu) bulan karena tunggakan akan terakumulasi.\n\nUntuk informasi lebih lanjut dapat menghubungi BPJS Kesehatan Care Center 165 (24 jam). Salam Sehat,BPJS Kesehatan Semoga sehat selalu.'
+    };
+
+    const TEMPLATES_STORAGE_KEY = 'yres_templates_store_v3';
+    const ACTIVE_TPL_KEY = 'yres_active_tpl_id_v3';
+
+    let templates = { ...DEFAULT_TEMPLATES };
+    let activeTemplateId = 1;
 
     // Avatar Color Palette
     const AVATAR_COLORS = [
@@ -1027,17 +1060,161 @@
       'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300'
     ];
 
-    // Template Setup
-    let currentTemplate = localStorage.getItem(TEMPLATE_KEY) || DEFAULT_TEMPLATE;
-    document.getElementById('custom-message-template').value = currentTemplate;
+    // Format Tanggal & Bulan Dinamis (Hari Ini sampai ke depannya)
+    function getIndonesianDateToday() {
+      const now = new Date();
+      const day = now.getDate();
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return `${day} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    function getIndonesianMonthYearToday() {
+      const now = new Date();
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return `${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    // Inisialisasi Template & Sistem ON / OFF
+    function initTemplates() {
+      const savedTemplates = localStorage.getItem(TEMPLATES_STORAGE_KEY);
+      if (savedTemplates) {
+        try {
+          const parsed = JSON.parse(savedTemplates);
+          templates = { ...DEFAULT_TEMPLATES, ...parsed };
+        } catch (e) {
+          templates = { ...DEFAULT_TEMPLATES };
+        }
+      }
+
+      const savedActive = localStorage.getItem(ACTIVE_TPL_KEY);
+      if (savedActive && templates[savedActive]) {
+        activeTemplateId = parseInt(savedActive, 10);
+      } else {
+        activeTemplateId = 1;
+      }
+
+      updateTemplateUI();
+    }
+
+    // Ubah Format Aktif (Sistem ON / OFF)
+    function selectTemplateFormat(id) {
+      activeTemplateId = id;
+      localStorage.setItem(ACTIVE_TPL_KEY, String(id));
+      updateTemplateUI();
+      renderTable();
+      showToast(`Format ${id} Aktif (ON)`, 'success');
+    }
+
+    // Perbarui Tampilan Switcher & Editor Template
+    function updateTemplateUI() {
+      const textarea = document.getElementById('custom-message-template');
+      if (textarea) {
+        textarea.value = templates[activeTemplateId] || DEFAULT_TEMPLATES[activeTemplateId];
+      }
+
+      [1, 2, 3].forEach(id => {
+        const card = document.getElementById(`tpl-card-${id}`);
+        const badge = document.getElementById(`tpl-status-badge-${id}`);
+        const track = document.getElementById(`tpl-toggle-track-${id}`);
+        const thumb = document.getElementById(`tpl-toggle-thumb-${id}`);
+
+        const isActive = id === activeTemplateId;
+
+        if (card) {
+          if (isActive) {
+            card.className = 'tpl-option-btn p-2.5 rounded-2xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-brand-50/70 dark:bg-brand-950/50 border-brand-500 ring-2 ring-brand-500/30 shadow-sm';
+          } else {
+            card.className = 'tpl-option-btn p-2.5 rounded-2xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 opacity-75 hover:opacity-100';
+          }
+        }
+
+        if (badge) {
+          if (isActive) {
+            badge.textContent = 'ON';
+            badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-500 text-white shadow-xs';
+          } else {
+            badge.textContent = 'OFF';
+            badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400';
+          }
+        }
+
+        if (track && thumb) {
+          if (isActive) {
+            track.className = 'w-7 h-4 bg-emerald-500 rounded-full relative transition-colors p-0.5';
+            thumb.className = 'w-3 h-3 bg-white rounded-full transition-transform translate-x-3 shadow-xs';
+          } else {
+            track.className = 'w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5';
+            thumb.className = 'w-3 h-3 bg-white rounded-full transition-transform translate-x-0 shadow-xs';
+          }
+        }
+      });
+
+      const infoLabel = document.getElementById('tpl-active-info');
+      if (infoLabel) {
+        infoLabel.innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Format ${activeTemplateId} Aktif (ON)
+        `;
+      }
+    }
+
+    // Simpan Perubahan Template Aktif
+    function saveCurrentTemplate() {
+      const textarea = document.getElementById('custom-message-template');
+      templates[activeTemplateId] = textarea.value;
+      localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(templates));
+      renderTable();
+    }
+
+    // Reset Template Aktif ke Default
+    function resetActiveTemplateDefault() {
+      templates[activeTemplateId] = DEFAULT_TEMPLATES[activeTemplateId];
+      localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(templates));
+      updateTemplateUI();
+      renderTable();
+      showToast(`Format ${activeTemplateId} dikembalikan ke teks default`, 'info');
+    }
+
+    // Sisipkan Tag Variabel ke Textarea
+    function insertTag(tag) {
+      const textarea = document.getElementById('custom-message-template');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      textarea.value = text.substring(0, start) + tag + text.substring(end);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = start + tag.length;
+      saveCurrentTemplate();
+    }
+
+    // Bangun Pesan Dinamis dengan Tag Variabel Sesuai Template Aktif
+    function buildMessage(item) {
+      const rawTemplate = templates[activeTemplateId] || DEFAULT_TEMPLATES[activeTemplateId] || '';
+      const dateToday = getIndonesianDateToday();
+      const monthYearToday = getIndonesianMonthYearToday();
+
+      // Ekstraksi nomor kartu dan slice 2 untuk Virtual Account Bank
+      const rawCard = String(item.noKartu || '');
+      const digits = rawCard.replace(/\D/g, '');
+      const cardSlice2 = digits.length >= 2 ? digits.slice(2) : (rawCard.length >= 2 ? rawCard.slice(2) : rawCard);
+
+      return rawTemplate
+        .replace(/{(?:no\s*kartu|noKartu)\.slice\s*\(?2\)?}/gi, cardSlice2)
+        .replace(/{(?:no\s*kartu|noKartu)}/gi, rawCard || '-')
+        .replace(/{nama}/gi, item.nama || '-')
+        .replace(/{nominal}/gi, formatRupiah(item.nominal))
+        .replace(/{(?:date\s*today|date\s*hari\s*ini|date_today|date_hari_ini)}/gi, dateToday)
+        .replace(/{(?:month\s*year\s*today|month_year_today|bulan\s*tahun\s*hari\s*ini)}/gi, monthYearToday);
+    }
 
     // Inisialisasi Halaman
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
       initDragAndDrop();
       updateTargetModesUI();
+      initTemplates();
 
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('yres_modern_dataset_v2');
       if (saved) {
         try {
           dataset = JSON.parse(saved);
@@ -1138,7 +1315,6 @@
       } else if (cleaned.startsWith('8')) {
         cleaned = '62' + cleaned;
       }
-      // Jika sudah dimulai dengan 62, tetap tambahkan +
       return '+' + cleaned;
     }
 
@@ -1149,40 +1325,6 @@
         return (parts[0][0] + parts[1][0]).toUpperCase();
       }
       return (name ? name.slice(0, 2) : '??').toUpperCase();
-    }
-
-    // Bangun pesan
-    function buildMessage(item) {
-      return currentTemplate
-        .replace(/{nama}/g, item.nama || '-')
-        .replace(/{noKartu}/g, item.noKartu || '-')
-        .replace(/{nominal}/g, formatRupiah(item.nominal));
-    }
-
-    // Sisipkan tag ke textarea template
-    function insertTag(tag) {
-      const textarea = document.getElementById('custom-message-template');
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const text = textarea.value;
-      textarea.value = text.substring(0, start) + tag + text.substring(end);
-      textarea.focus();
-      textarea.selectionStart = textarea.selectionEnd = start + tag.length;
-      saveTemplate();
-    }
-
-    // Simpan template kustom
-    function saveTemplate() {
-      currentTemplate = document.getElementById('custom-message-template').value.trim() || DEFAULT_TEMPLATE;
-      localStorage.setItem(TEMPLATE_KEY, currentTemplate);
-    }
-
-    function resetTemplateDefault() {
-      currentTemplate = DEFAULT_TEMPLATE;
-      document.getElementById('custom-message-template').value = DEFAULT_TEMPLATE;
-      localStorage.setItem(TEMPLATE_KEY, DEFAULT_TEMPLATE);
-      showToast('Template dikembalikan ke default', 'info');
-      renderTable();
     }
 
     // Toast Notification
@@ -1219,16 +1361,19 @@
       }, 3200);
     }
 
-    // Muat Sample Data
+    // Muat Sample Data (dengan simulasi urutan selesai)
     function loadSampleData() {
-      const timeNow = new Date().toLocaleString('id-ID');
+      const now = Date.now();
+      const timeOlder = new Date(now - 120000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+      const timeNewer = new Date(now - 30000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
       dataset = [
-        { id: 0, noKartu: '4512-8821-0012', nama: 'Budi Santoso', noHp: '081234567890', nominal: 450000, status: 'Belum', jamSelesai: null },
-        { id: 1, noKartu: '4512-8821-0045', nama: 'Siti Rahmawati', noHp: '085712345678', nominal: 1250000, status: 'Belum', jamSelesai: null },
-        { id: 2, noKartu: '4512-8821-0089', nama: 'Ahmad Fauzi', noHp: '087898765432', nominal: 750000, status: 'Selesai', jamSelesai: timeNow },
-        { id: 3, noKartu: '4512-8821-0103', nama: 'Dewi Lestari', noHp: '089611223344', nominal: 320000, status: 'Belum', jamSelesai: null },
-        { id: 4, noKartu: '4512-8821-0215', nama: 'Hendra Gunawan', noHp: '082155667788', nominal: 980000, status: 'Selesai', jamSelesai: timeNow },
-        { id: 5, noKartu: '4512-8821-0301', nama: 'Rina Kusuma', noHp: '081399887766', nominal: 600000, status: 'Belum', jamSelesai: null }
+        { id: 0, noKartu: '0001882100123', nama: 'Budi Santoso', noHp: '081234567890', nominal: 450000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 1, noKartu: '0001882100456', nama: 'Siti Rahmawati', noHp: '085712345678', nominal: 1250000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 2, noKartu: '0001882100891', nama: 'Ahmad Fauzi', noHp: '087898765432', nominal: 750000, status: 'Selesai', jamSelesai: timeOlder, selesaiAt: now - 120000 },
+        { id: 3, noKartu: '0001882101034', nama: 'Dewi Lestari', noHp: '089611223344', nominal: 320000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 4, noKartu: '0001882102157', nama: 'Hendra Gunawan', noHp: '082155667788', nominal: 980000, status: 'Selesai', jamSelesai: timeNewer, selesaiAt: now - 30000 },
+        { id: 5, noKartu: '0001882103019', nama: 'Rina Kusuma', noHp: '081399887766', nominal: 600000, status: 'Belum', jamSelesai: null, selesaiAt: null }
       ];
       document.getElementById('file-info').textContent = 'Data Simulasi Demo (6 baris)';
       saveDataset();
@@ -1239,8 +1384,8 @@
     // Unduh Template Excel
     function downloadTemplateExcel() {
       const templateData = [
-        { No_Kartu: '4512-0000-0001', Nama: 'Budi Santoso', No_HP: '081234567890', Nominal: 500000, Status: 'Belum' },
-        { No_Kartu: '4512-0000-0002', Nama: 'Siti Aminah', No_HP: '085712345678', Nominal: 750000, Status: 'Belum' }
+        { No_Kartu: '0001882100001', Nama: 'Budi Santoso', No_HP: '081234567890', Nominal: 500000, Status: 'Belum' },
+        { No_Kartu: '0001882100002', Nama: 'Siti Aminah', No_HP: '085712345678', Nominal: 750000, Status: 'Belum' }
       ];
       const worksheet = XLSX.utils.json_to_sheet(templateData);
       const workbook = XLSX.utils.book_new();
@@ -1275,6 +1420,9 @@
             return;
           }
 
+          const nowMs = Date.now();
+          const nowFormattedTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
           dataset = rawData.map((row, idx) => {
             const isDone = String(row.Status || row.status || 'Belum').trim().toLowerCase() === 'selesai';
             return {
@@ -1284,7 +1432,8 @@
               noHp: row.No_HP || row['No HP'] || row.no_hp || row.Telepon || row.HP || '-',
               nominal: Number(row.Nominal || row.Tagihan || row.nominal || 0),
               status: isDone ? 'Selesai' : 'Belum',
-              jamSelesai: row.Jam || row.jam || row.Waktu || row.waktu || (isDone ? new Date().toLocaleString('id-ID') : null)
+              jamSelesai: row.Jam || row.jam || row.Waktu || row.waktu || (isDone ? nowFormattedTime : null),
+              selesaiAt: isDone ? (nowMs - (rawData.length - idx) * 1000) : null
             };
           });
 
@@ -1299,10 +1448,10 @@
       reader.readAsArrayBuffer(file);
     }
 
-    // Set Filter Status Tab
+    // Set Filter Status Tab (Semua - Belum Selesai - Selesai)
     function setFilter(status) {
       currentFilter = status;
-      ['ALL', 'Belum'].forEach(tab => {
+      ['ALL', 'Belum', 'Selesai'].forEach(tab => {
         const btn = document.getElementById(`tab-${tab}`);
         if (!btn) return;
         if (tab === status) {
@@ -1321,13 +1470,10 @@
       renderTable();
     }
 
-    // Render Tabel & KPI
+    // Render Tabel Utama & KPI
     function renderTable() {
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = '';
-
-      // Render tabel Peserta Tersambung
-      renderTersambung();
 
       updateKPIs();
 
@@ -1361,10 +1507,15 @@
         return;
       }
 
-      const filtered = dataset.filter(item => {
-        // Item Selesai tidak pernah tampil di tabel utama — sudah ada di Peserta Tersambung
-        if (item.status === 'Selesai') return false;
-        const matchesStatus = (currentFilter === 'ALL') || (item.status === currentFilter);
+      // Filter: Kolom Semua menampilkan semua peserta (baik belum selesai maupun selesai)
+      let filtered = dataset.filter(item => {
+        let matchesStatus = true;
+        if (currentFilter === 'Belum') {
+          matchesStatus = item.status !== 'Selesai';
+        } else if (currentFilter === 'Selesai') {
+          matchesStatus = item.status === 'Selesai';
+        } // jika 'ALL', maka matchesStatus = true (tampilkan semua)
+
         const matchesSearch = !searchTerm ||
           String(item.nama).toLowerCase().includes(searchTerm) ||
           String(item.noKartu).toLowerCase().includes(searchTerm) ||
@@ -1372,24 +1523,33 @@
         return matchesStatus && matchesSearch;
       });
 
-      document.getElementById('row-count-info').textContent = `Menampilkan ${filtered.length} dari ${dataset.length} data`;
+      // Point 3: Pada kolom "selesai" dibuat urutannya yang dari paling atas adalah yang terbaru lalu kebawah yang selesai lebih dulu
+      if (currentFilter === 'Selesai') {
+        filtered.sort((a, b) => {
+          const timeA = a.selesaiAt || 0;
+          const timeB = b.selesaiAt || 0;
+          if (timeB !== timeA) return timeB - timeA;
+          return b.id - a.id;
+        });
+      }
+
+      const filterTitle = currentFilter === 'ALL' ? 'Semua' : currentFilter === 'Belum' ? 'Belum Selesai' : 'Selesai';
+      document.getElementById('row-count-info').textContent = `Menampilkan ${filtered.length} dari ${dataset.length} data (${filterTitle})`;
 
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="7" class="text-center py-12 text-slate-400 dark:text-slate-500">
               <i class="fa-solid fa-magnifying-glass text-xl mb-2 block opacity-50"></i>
-              Tidak ada data yang cocok dengan kriteria filter.
+              Tidak ada data yang cocok dengan kriteria filter "${filterTitle}".
             </td>
           </tr>
         `;
         return;
       }
 
+      // Point 2: Urutan kolom diubah menjadi # - no. kartu - nama - no. hp - nominal - status - tindakan pengingat
       filtered.forEach((item, index) => {
-        const pesan = buildMessage(item);
-        const encodedPesan = encodeURIComponent(pesan);
-        const formattedHp = cleanPhoneNumber(item.noHp);
         const isSelesai = item.status === 'Selesai';
         const colorClass = AVATAR_COLORS[item.id % AVATAR_COLORS.length];
 
@@ -1397,9 +1557,17 @@
         tr.className = "hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition duration-150 border-b border-slate-100 dark:border-slate-800/80 group";
 
         tr.innerHTML = `
+          <!-- 1. # -->
           <td class="py-3.5 px-4 text-center font-mono text-[11px] text-slate-400">${index + 1}</td>
           
-          <!-- Nama & Avatar -->
+          <!-- 2. No. Kartu -->
+          <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300">
+            <span class="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/60 dark:border-slate-700 text-[11px] font-medium tracking-wide">
+              ${escapeHtml(item.noKartu)}
+            </span>
+          </td>
+
+          <!-- 3. Nama -->
           <td class="py-3.5 px-4">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-xl ${colorClass} flex items-center justify-center font-bold text-xs tracking-wider shrink-0 shadow-sm">
@@ -1411,14 +1579,7 @@
             </div>
           </td>
 
-          <!-- No Kartu -->
-          <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300">
-            <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700 text-[11px] font-medium">
-              ${escapeHtml(item.noKartu)}
-            </span>
-          </td>
-
-          <!-- No HP -->
+          <!-- 4. No. HP -->
           <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300">
             <div class="flex items-center gap-1.5">
               <span>${escapeHtml(item.noHp)}</span>
@@ -1428,12 +1589,12 @@
             </div>
           </td>
 
-          <!-- Nominal -->
-          <td class="py-3.5 px-4 text-right font-extrabold text-slate-800 dark:text-slate-100">
+          <!-- 5. Nominal -->
+          <td class="py-3.5 px-4 text-right font-extrabold font-mono ${isSelesai ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-100'}">
             ${formatRupiah(item.nominal)}
           </td>
 
-          <!-- Status Badge Toggle -->
+          <!-- 6. Status -->
           <td class="py-3.5 px-4 text-center">
             <button onclick="toggleStatus(${item.id})" title="Klik untuk mengubah status" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold cursor-pointer transition select-none active:scale-95 ${isSelesai
             ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-400 hover:bg-emerald-200'
@@ -1442,18 +1603,19 @@
               <span class="w-1.5 h-1.5 rounded-full ${isSelesai ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}"></span>
               ${escapeHtml(item.status)}
             </button>
+            ${isSelesai && item.jamSelesai ? `<div class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(item.jamSelesai)}</div>` : ''}
           </td>
 
-          <!-- Actions: WhatsApp + Google Messages -->
+          <!-- 7. Tindakan Pengingat -->
           <td class="py-3.5 px-6 text-center">
             <div class="flex items-center justify-center gap-2">
               
-              <!-- WhatsApp Button (Langsung Sesuai Target Web/App) -->
+              <!-- WhatsApp Button -->
               <button onclick="sendDirectWhatsApp(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-sm hover:shadow-emerald-600/30 transition active:scale-95" title="Kirim via WhatsApp (App / Web)">
                 <i class="fa-brands fa-whatsapp text-sm"></i> <span>WA</span>
               </button>
 
-              <!-- Google Messages Direct Action Button (Langsung Sesuai Target Web/App) -->
+              <!-- Google Messages Button -->
               <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (App / Web)">
                 <i class="fa-solid fa-comment-dots text-sm"></i> <span>G-Messages</span>
               </button>
@@ -1494,7 +1656,6 @@
     }
 
     function updateTargetModesUI() {
-      // WhatsApp Switcher Buttons
       const btnWaApp = document.getElementById('wa-mode-app');
       const btnWaWeb = document.getElementById('wa-mode-web');
       if (btnWaApp && btnWaWeb) {
@@ -1507,7 +1668,6 @@
         }
       }
 
-      // Google Messages Switcher Buttons
       const btnGmApp = document.getElementById('gm-mode-app');
       const btnGmWeb = document.getElementById('gm-mode-web');
       if (btnGmApp && btnGmWeb) {
@@ -1537,11 +1697,9 @@
       markDone(target.id);
 
       if (waMode === 'web') {
-        // Langsung buka WhatsApp Web chat
         window.open(`https://web.whatsapp.com/send?phone=${formattedHp}&text=${encodedMsg}`, '_blank');
         showToast(`Membuka WhatsApp Web untuk ${target.nama}...`, 'success');
       } else {
-        // Buka aplikasi WhatsApp langsung
         window.open(`https://wa.me/${formattedHp}?text=${encodedMsg}`, '_blank');
         showToast(`Membuka aplikasi WhatsApp untuk ${target.nama}...`, 'success');
       }
@@ -1563,11 +1721,9 @@
       markDone(target.id);
 
       if (gmMode === 'web') {
-        // Buka Google Messages Web langsung ke chat dengan nomor +62xxx
         window.open(`https://messages.google.com/web/conversations/new?q=${encodeURIComponent(formattedHpGM)}`, '_blank');
         showToast(`Membuka Google Messages Web untuk ${target.nama} (${formattedHpGM}). Teks siap di-Paste!`, 'success');
       } else {
-        // Langsung arahkan ke kolom chat Google Messages (via protokol sms: dengan +62)
         window.location.href = `sms:${formattedHpGM}?body=${encodedMsg}`;
         showToast(`Membuka chat Google Messages untuk ${target.nama} (${formattedHpGM})...`, 'success');
       }
@@ -1604,8 +1760,13 @@
       document.getElementById('total-selesai').innerText = selesaiCount;
       document.getElementById('total-belum').innerText = belumCount;
 
-      document.getElementById('badge-all').innerText = belumCount;
-      document.getElementById('badge-belum').innerText = belumCount;
+      // Update badge tabs: Semua = total, Belum = belumCount, Selesai = selesaiCount
+      const badgeAll = document.getElementById('badge-all');
+      if (badgeAll) badgeAll.innerText = total;
+      const badgeBelum = document.getElementById('badge-belum');
+      if (badgeBelum) badgeBelum.innerText = belumCount;
+      const badgeSelesai = document.getElementById('badge-selesai');
+      if (badgeSelesai) badgeSelesai.innerText = selesaiCount;
 
       document.getElementById('nominal-selesai').innerText = formatRupiah(nominalSelesai);
       document.getElementById('nominal-belum').innerText = formatRupiah(nominalBelum);
@@ -1620,13 +1781,14 @@
       }
     }
 
-    // Toggle status tunggal
+    // Toggle status tunggal (Point 3: set selesaiAt dan jamSelesai saat diubah)
     function toggleStatus(id) {
       const target = dataset.find(d => d.id === id);
       if (target) {
-        const newStatus = target.status === 'Selesai' ? 'Belum' : 'Selesai';
-        target.status = newStatus;
-        target.jamSelesai = newStatus === 'Selesai' ? new Date().toLocaleString('id-ID') : null;
+        const isNowSelesai = target.status !== 'Selesai';
+        target.status = isNowSelesai ? 'Selesai' : 'Belum';
+        target.selesaiAt = isNowSelesai ? Date.now() : null;
+        target.jamSelesai = isNowSelesai ? (new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB') : null;
         saveDataset();
         renderTable();
         showToast(`Status ${target.nama} diubah ke ${target.status}`, 'info');
@@ -1638,7 +1800,8 @@
       const target = dataset.find(d => d.id === id);
       if (target && target.status !== 'Selesai') {
         target.status = 'Selesai';
-        target.jamSelesai = new Date().toLocaleString('id-ID');
+        target.selesaiAt = Date.now();
+        target.jamSelesai = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
         saveDataset();
         setTimeout(() => renderTable(), 250);
       }
@@ -1656,11 +1819,13 @@
         return;
       }
       if (confirm(`Apakah Anda ingin menandai seluruh ${pendingCount} pelanggan yang belum selesai menjadi Selesai?`)) {
-        const now = new Date().toLocaleString('id-ID');
-        dataset.forEach(item => {
+        const nowMs = Date.now();
+        const nowFormatted = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+        dataset.forEach((item, idx) => {
           if (item.status !== 'Selesai') {
             item.status = 'Selesai';
-            item.jamSelesai = now;
+            item.selesaiAt = nowMs + idx;
+            item.jamSelesai = nowFormatted;
           }
         });
         saveDataset();
@@ -1756,115 +1921,53 @@
       }
     }
 
-    // Render Peserta Tersambung (status Selesai otomatis masuk)
-    function renderTersambung() {
-      const tbody = document.getElementById('tersambung-table-body');
-      tbody.innerHTML = '';
-
-      const selesaiList = dataset.filter(d => d.status === 'Selesai');
-      const totalNominal = selesaiList.reduce((acc, cur) => acc + (Number(cur.nominal) || 0), 0);
-
-      // Update badge & total nominal
-      document.getElementById('tersambung-count-badge').textContent = `${selesaiList.length} Peserta`;
-      document.getElementById('tersambung-total-nominal').textContent = formatRupiah(totalNominal);
-
-      if (selesaiList.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="7" class="text-center py-10 text-slate-400 dark:text-slate-500">
-              <div class="flex flex-col items-center justify-center gap-2">
-                <i class="fa-solid fa-clock-rotate-left text-2xl text-slate-300 dark:text-slate-700"></i>
-                <p class="font-medium text-xs">Belum ada peserta tersambung.</p>
-                <p class="text-[11px] text-slate-400">Peserta dengan status Selesai akan otomatis tampil di sini.</p>
-              </div>
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      selesaiList.forEach((item, index) => {
-        const colorClass = AVATAR_COLORS[item.id % AVATAR_COLORS.length];
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition duration-150 border-b border-slate-100 dark:border-slate-800/80 group';
-
-        tr.innerHTML = `
-          <td class="py-3 px-4 text-center font-mono text-[11px] text-slate-400">${index + 1}</td>
-          <td class="py-3 px-4 text-center">
-            <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700 text-[11px] font-mono font-medium text-slate-600 dark:text-slate-300">
-              ${escapeHtml(item.noKartu)}
-            </span>
-          </td>
-          <td class="py-3 px-4 text-center">
-            <div class="flex items-center justify-center gap-2">
-              <div class="w-7 h-7 rounded-lg ${colorClass} flex items-center justify-center font-bold text-[10px] tracking-wider shrink-0 shadow-sm">
-                ${getInitials(item.nama)}
-              </div>
-              <span class="font-bold text-slate-800 dark:text-slate-100 text-xs">${escapeHtml(item.nama)}</span>
-            </div>
-          </td>
-          <td class="py-3 px-4 text-center font-mono text-slate-600 dark:text-slate-300 text-[11px]">${escapeHtml(item.noHp)}</td>
-          <td class="py-3 px-4 text-center font-bold text-emerald-700 dark:text-emerald-400">${formatRupiah(item.nominal)}</td>
-          <td class="py-3 px-4 text-center font-mono text-[11px] text-slate-500 dark:text-slate-400">
-            <div class="flex items-center justify-center gap-1">
-              <i class="fa-regular fa-clock text-[10px]"></i>
-              ${escapeHtml(item.jamSelesai || '-')}
-            </div>
-          </td>
-          <td class="py-3 px-4 text-center">
-            <button onclick="toggleStatus(${item.id})" title="Batalkan status Selesai" class="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-500 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition flex items-center justify-center mx-auto active:scale-90">
-              <i class="fa-solid fa-xmark text-xs"></i>
-            </button>
-          </td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-    }
-
-    // Ekspor Excel
+    // Ekspor Excel Fleksibel (Semua / Belum / Selesai)
     function downloadHasil() {
       if (dataset.length === 0) {
         showToast('Tidak ada data yang dapat diekspor.', 'warning');
         return;
       }
-      const exportData = dataset.map(({ noKartu, nama, noHp, nominal, status }) => ({
-        'No Kartu': noKartu,
-        'Nama': nama,
-        'No HP': noHp,
-        'Nominal': nominal,
-        'Status': status
-      }));
 
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Hasil_Reminder");
-      XLSX.writeFile(workbook, `YRES_Export_${new Date().toISOString().slice(0, 10)}.xlsx`);
-      showToast('File Excel hasil reminder berhasil diunduh.', 'success');
-    }
+      let dataToExport = dataset;
+      let sheetName = 'Semua_Pelanggan';
+      let filePrefix = 'YRES_Export_Semua';
 
-    // Ekspor Data Peserta Tersambung ke Excel
-    function downloadHasilTersambung() {
-      const selesaiList = dataset.filter(d => d.status === 'Selesai');
-      if (selesaiList.length === 0) {
-        showToast('Belum ada peserta tersambung untuk diekspor.', 'warning');
+      if (currentFilter === 'Selesai') {
+        dataToExport = dataset.filter(d => d.status === 'Selesai');
+        sheetName = 'Peserta_Selesai';
+        filePrefix = 'YRES_Export_Selesai';
+      } else if (currentFilter === 'Belum') {
+        dataToExport = dataset.filter(d => d.status !== 'Selesai');
+        sheetName = 'Peserta_Belum_Selesai';
+        filePrefix = 'YRES_Export_Belum';
+      }
+
+      if (dataToExport.length === 0) {
+        showToast(`Tidak ada data ${currentFilter === 'Selesai' ? 'selesai' : 'belum selesai'} untuk diekspor.`, 'warning');
         return;
       }
-      const exportData = selesaiList.map((item, idx) => ({
+
+      const exportData = dataToExport.map((item, idx) => ({
         'No': idx + 1,
         'No Kartu': item.noKartu,
         'Nama': item.nama,
         'No HP': item.noHp,
         'Nominal': item.nominal,
+        'Status': item.status,
         'Jam Selesai': item.jamSelesai || '-'
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Peserta_Tersambung');
-      XLSX.writeFile(workbook, `YRES_Tersambung_${new Date().toISOString().slice(0, 10)}.xlsx`);
-      showToast('Data peserta tersambung berhasil diunduh!', 'success');
+      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      XLSX.writeFile(workbook, `${filePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      showToast(`File Excel (${sheetName.replace(/_/g, ' ')}) berhasil diunduh.`, 'success');
+    }
 
+    // Kompatibilitas jika dipanggil dari luar
+    function downloadHasilTersambung() {
+      setFilter('Selesai');
+      downloadHasil();
     }
 
     // ===== USER MANUAL MODAL =====
