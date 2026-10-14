@@ -883,13 +883,8 @@
 
         <!-- Filter Tabs & G-Messages Mode Selector -->
         <div class="flex flex-wrap items-center gap-3">
-          <!-- Filter Tabs: Semua - Belum Selesai - Selesai -->
+          <!-- Filter Tabs: Belum Selesai - Selesai - Semua -->
           <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl w-fit">
-            <button onclick="setFilter('ALL')" id="tab-ALL"
-              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white">
-              Semua <span id="badge-all"
-                class="ml-1 text-[10px] px-1.5 py-0.2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500">0</span>
-            </button>
             <button onclick="setFilter('Belum')" id="tab-Belum"
               class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
               Belum Selesai <span id="badge-belum"
@@ -899,6 +894,11 @@
               class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
               Selesai <span id="badge-selesai"
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 rounded-full">0</span>
+            </button>
+            <button onclick="setFilter('ALL')" id="tab-ALL"
+              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white">
+              Semua <span id="badge-all"
+                class="ml-1 text-[10px] px-1.5 py-0.2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500">0</span>
             </button>
           </div>
 
@@ -1448,10 +1448,10 @@
       reader.readAsArrayBuffer(file);
     }
 
-    // Set Filter Status Tab (Semua - Belum Selesai - Selesai)
+    // Set Filter Status Tab (Belum Selesai - Selesai - Semua)
     function setFilter(status) {
       currentFilter = status;
-      ['ALL', 'Belum', 'Selesai'].forEach(tab => {
+      ['Belum', 'Selesai', 'ALL'].forEach(tab => {
         const btn = document.getElementById(`tab-${tab}`);
         if (!btn) return;
         if (tab === status) {
@@ -1616,7 +1616,7 @@
               </button>
 
               <!-- Google Messages Button -->
-              <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (App / Web)">
+              <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (No HP otomatis disalin)">
                 <i class="fa-solid fa-comment-dots text-sm"></i> <span>G-Messages</span>
               </button>
 
@@ -1705,7 +1705,7 @@
       }
     }
 
-    // Eksekusi Langsung Google Messages (1 Klik Langsung ke Chat)
+    // Eksekusi Langsung Google Messages (1 Klik Langsung ke Chat & Salin No HP)
     function sendDirectGoogleMessages(id) {
       const target = dataset.find(d => d.id === id);
       if (!target) return;
@@ -1713,19 +1713,20 @@
       const msg = buildMessage(target);
       const formattedHpGM = cleanPhoneNumberGM(target.noHp); // Format +62xxx
       const encodedMsg = encodeURIComponent(msg);
+      const phoneToCopy = String(target.noHp || '').trim();
 
-      // Salin pesan ke clipboard
-      navigator.clipboard.writeText(msg).catch(() => { });
+      // Salin nomor telepon ke clipboard secara otomatis
+      copyToClipboard(phoneToCopy, `Nomor HP (${phoneToCopy})`);
 
       // Tandai baris sebagai Selesai
       markDone(target.id);
 
       if (gmMode === 'web') {
         window.open(`https://messages.google.com/web/conversations/new?q=${encodeURIComponent(formattedHpGM)}`, '_blank');
-        showToast(`Membuka Google Messages Web untuk ${target.nama} (${formattedHpGM}). Teks siap di-Paste!`, 'success');
+        showToast(`Membuka Google Messages Web untuk ${target.nama}. No HP siap di-Paste!`, 'info');
       } else {
         window.location.href = `sms:${formattedHpGM}?body=${encodedMsg}`;
-        showToast(`Membuka chat Google Messages untuk ${target.nama} (${formattedHpGM})...`, 'success');
+        showToast(`Membuka chat Google Messages untuk ${target.nama}...`, 'info');
       }
     }
 
@@ -1890,13 +1891,40 @@
       copyToClipboard(text, 'Teks reminder');
     }
 
-    // Copy to clipboard helper
+    // Copy to clipboard helper dengan fallback
     function copyToClipboard(text, label = 'Teks') {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(`${label} berhasil disalin ke clipboard!`, 'success');
-      }).catch(() => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`${label} berhasil disalin ke clipboard!`, 'success');
+        }).catch(() => {
+          fallbackCopyText(text, label);
+        });
+      } else {
+        fallbackCopyText(text, label);
+      }
+    }
+
+    // Fallback copy text untuk kompatibilitas penuh
+    function fallbackCopyText(text, label = 'Teks') {
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (successful) {
+          showToast(`${label} berhasil disalin ke clipboard!`, 'success');
+        } else {
+          showToast('Gagal menyalin ke clipboard.', 'error');
+        }
+      } catch (err) {
         showToast('Gagal menyalin ke clipboard.', 'error');
-      });
+      }
     }
 
     function copyPesanById(id) {
