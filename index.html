@@ -886,7 +886,7 @@
           <!-- Filter Tabs: Belum Selesai - Selesai - Semua -->
           <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl w-fit">
             <button onclick="setFilter('Belum')" id="tab-Belum"
-              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white">
               Belum Selesai <span id="badge-belum"
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 rounded-full">0</span>
             </button>
@@ -896,7 +896,7 @@
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 rounded-full">0</span>
             </button>
             <button onclick="setFilter('ALL')" id="tab-ALL"
-              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white">
+              class="filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
               Semua <span id="badge-all"
                 class="ml-1 text-[10px] px-1.5 py-0.2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500">0</span>
             </button>
@@ -1033,7 +1033,7 @@
   <script>
     // State Aplikasi
     let dataset = [];
-    let currentFilter = 'ALL';
+    let currentFilter = 'Belum';
     const STORAGE_KEY = 'yres_modern_dataset_v3';
     const THEME_KEY = 'yres_theme_mode';
 
@@ -1221,11 +1221,11 @@
           if (dataset.length > 0) {
             document.getElementById('file-info').textContent = `Tersimpan di browser (${dataset.length} baris)`;
           }
-          renderTable();
         } catch (e) {
           console.error('Error saat parse data:', e);
         }
       }
+      setFilter('Belum');
     });
 
     // Theme Switcher (Dark / Light)
