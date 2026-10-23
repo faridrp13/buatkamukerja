@@ -975,9 +975,9 @@
               class="bg-slate-50/70 dark:bg-slate-950/70 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px] border-b border-slate-100 dark:border-slate-800">
               <th class="py-3.5 px-4 text-center w-12">#</th>
               <th class="py-3.5 px-4 font-mono">No. Kartu</th>
-              <th class="py-3.5 px-4">Nama</th>
+              <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200 transition" onclick="cycleSortNama()"><span class="inline-flex items-center gap-1.5">Nama <span id="sort-icon-nama" class="text-[10px] text-slate-300 dark:text-slate-600"><i class="fa-solid fa-sort"></i></span></span></th>
               <th class="py-3.5 px-4 font-mono">No. HP</th>
-              <th class="py-3.5 px-4 text-right">Nominal</th>
+              <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200 transition" onclick="cycleSortNominal()"><span class="inline-flex items-center gap-1.5 justify-end w-full">Nominal <span id="sort-icon-nominal" class="text-[10px] text-slate-300 dark:text-slate-600"><i class="fa-solid fa-sort"></i></span></span></th>
               <th class="py-3.5 px-4 text-center">Status</th>
               <th class="py-3.5 px-6 text-center">Tindakan Pengingat</th>
             </tr>
@@ -1037,6 +1037,10 @@
     let currentFilter = 'Belum';
     const STORAGE_KEY = 'yres_modern_dataset_v3';
     const THEME_KEY = 'yres_theme_mode';
+
+    // Sort State
+    let sortNama = 'default';    // 'default' | 'az' | 'za'
+    let sortNominal = 'default'; // 'default' | 'high' | 'low'
 
     // 3 Format Template Default Sesuai Instruksi
     const DEFAULT_TEMPLATES = {
@@ -1479,6 +1483,7 @@
       tbody.innerHTML = '';
 
       updateKPIs();
+      updateSortIcons();
 
       const searchInput = document.getElementById('search-input');
       const searchTerm = searchInput.value.toLowerCase().trim();
@@ -1534,6 +1539,20 @@
           if (timeB !== timeA) return timeB - timeA;
           return b.id - a.id;
         });
+      }
+
+      // Sorting berdasarkan Nama (A-Z / Z-A)
+      if (sortNama === 'az') {
+        filtered.sort((a, b) => String(a.nama).localeCompare(String(b.nama), 'id'));
+      } else if (sortNama === 'za') {
+        filtered.sort((a, b) => String(b.nama).localeCompare(String(a.nama), 'id'));
+      }
+
+      // Sorting berdasarkan Nominal (Tertinggi / Terendah)
+      if (sortNominal === 'high') {
+        filtered.sort((a, b) => (Number(b.nominal) || 0) - (Number(a.nominal) || 0));
+      } else if (sortNominal === 'low') {
+        filtered.sort((a, b) => (Number(a.nominal) || 0) - (Number(b.nominal) || 0));
       }
 
       const filterTitle = currentFilter === 'ALL' ? 'Semua' : currentFilter === 'Belum' ? 'Belum Selesai' : 'Selesai';
@@ -2042,6 +2061,52 @@
       if (activeBtn) {
         activeBtn.classList.add('bg-white/20', 'font-bold', 'text-white');
         activeBtn.classList.remove('font-semibold', 'text-white/70');
+      }
+    }
+
+    // ===== SORTING: Nama & Nominal =====
+    function cycleSortNama() {
+      if (sortNama === 'default') sortNama = 'az';
+      else if (sortNama === 'az') sortNama = 'za';
+      else sortNama = 'default';
+      sortNominal = 'default'; // reset kolom lain
+      renderTable();
+      const labels = { default: 'Default', az: 'A → Z', za: 'Z → A' };
+      showToast(`Urutan Nama: ${labels[sortNama]}`, 'info');
+    }
+
+    function cycleSortNominal() {
+      if (sortNominal === 'default') sortNominal = 'high';
+      else if (sortNominal === 'high') sortNominal = 'low';
+      else sortNominal = 'default';
+      sortNama = 'default'; // reset kolom lain
+      renderTable();
+      const labels = { default: 'Default', high: 'Tertinggi', low: 'Terendah' };
+      showToast(`Urutan Nominal: ${labels[sortNominal]}`, 'info');
+    }
+
+    function updateSortIcons() {
+      const namaIcon = document.getElementById('sort-icon-nama');
+      const nominalIcon = document.getElementById('sort-icon-nominal');
+
+      if (namaIcon) {
+        const isActive = sortNama !== 'default';
+        if (sortNama === 'az') namaIcon.innerHTML = '<i class="fa-solid fa-sort-up"></i>';
+        else if (sortNama === 'za') namaIcon.innerHTML = '<i class="fa-solid fa-sort-down"></i>';
+        else namaIcon.innerHTML = '<i class="fa-solid fa-sort"></i>';
+        namaIcon.className = isActive
+          ? 'text-[10px] text-brand-500 dark:text-brand-400'
+          : 'text-[10px] text-slate-300 dark:text-slate-600';
+      }
+
+      if (nominalIcon) {
+        const isActive = sortNominal !== 'default';
+        if (sortNominal === 'high') nominalIcon.innerHTML = '<i class="fa-solid fa-sort-down"></i>';
+        else if (sortNominal === 'low') nominalIcon.innerHTML = '<i class="fa-solid fa-sort-up"></i>';
+        else nominalIcon.innerHTML = '<i class="fa-solid fa-sort"></i>';
+        nominalIcon.className = isActive
+          ? 'text-[10px] text-brand-500 dark:text-brand-400'
+          : 'text-[10px] text-slate-300 dark:text-slate-600';
       }
     }
   </script>
