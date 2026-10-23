@@ -1718,15 +1718,17 @@
       const encodedMsg = encodeURIComponent(msg);
       const phoneToCopy = String(target.noHp || '').trim();
 
-      // Salin nomor telepon ke clipboard secara otomatis
-      copyToClipboard(phoneToCopy, `Nomor HP (${phoneToCopy})`);
+      // Salin nomor telepon ke clipboard hanya untuk mode App
+      if (gmMode !== 'web') {
+        copyToClipboard(phoneToCopy, `Nomor HP (${phoneToCopy})`);
+      }
 
       // Tandai baris sebagai Selesai
       markDone(target.id);
 
       if (gmMode === 'web') {
         window.open(`https://messages.google.com/web/conversations/new?q=${encodeURIComponent(formattedHpGM)}`, '_blank');
-        showToast(`Membuka Google Messages Web untuk ${target.nama}. No HP siap di-Paste!`, 'info');
+        showToast(`Membuka Google Messages Web untuk ${target.nama}...`, 'info');
       } else {
         window.location.href = `sms:${formattedHpGM}?body=${encodedMsg}`;
         showToast(`Membuka chat Google Messages untuk ${target.nama}...`, 'info');
