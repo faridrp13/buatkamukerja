@@ -35,6 +35,7 @@ Web utility client-side murni tanpa ketergantungan server atau backend eksternal
 - **Kemampuan:**
   - Parsing dan ekspor berkas spreadsheet (.xlsx/.xls) lokal.
   - Multi-target pengiriman: WhatsApp (Mode App & Mode Web) dan Google Messages (Mode App & Mode Web).
+  - Tindakan pengingat cepat per baris: WhatsApp, Google Messages, Salin Nomor HP, Salin Teks Reminder, dan Lihat Pratinjau Teks.
   - Pratinjau pesan interaktif mirip tampilan chat asli dengan fitur salin teks.
   - Editor 3 format template bawaan dengan sistem toggle ON/OFF dan tag variabel dinamis (`{nama}`, `{no kartu}`, `{nominal}`, `{date today}`, `{month year today}`, `{no kartu.slice 2}`).
   - Mode gelap (dark mode) penuh tersimpan di `localStorage`.

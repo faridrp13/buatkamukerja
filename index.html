@@ -1059,8 +1059,8 @@
         <img src="logo-icon.png" alt="YURA Logo Icon" class="w-5 h-5 object-contain" />
         <p>© 2026 YURA Reminder System (YRES). Terintegrasi untuk WhatsApp & Google Messages.</p>
       </div>
-      <p class="flex items-center gap-1">
-        Ditenagai oleh <span class="font-semibold text-slate-600 dark:text-slate-300">SheetJS & Tailwind CSS</span>
+      <p class="flex items-center gap-1 text-slate-500 dark:text-slate-400 font-medium">
+        💙 Made With Love ❤️
       </p>
     </div>
   </footer>
@@ -1662,28 +1662,33 @@
             ${isSelesai && item.jamSelesai ? `<div class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(item.jamSelesai)}</div>` : ''}
           </td>
 
-          <!-- 7. Tindakan Pengingat -->
-          <td class="py-3.5 px-6 text-center">
+          <!-- 7. Tindakan Pengingat (Urutan: WA, G-Messages, Salin No HP, Salin Teks Reminder, Lihat Pratinjau Teks) -->
+          <td class="py-3.5 px-6 text-center whitespace-nowrap">
             <div class="flex items-center justify-center gap-2">
               
-              <!-- WhatsApp Button -->
-              <button onclick="sendDirectWhatsApp(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-sm hover:shadow-emerald-600/30 transition active:scale-95" title="Kirim via WhatsApp (App / Web)">
+              <!-- 1. WhatsApp Button -->
+              <button onclick="sendDirectWhatsApp(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-sm hover:shadow-emerald-600/30 transition active:scale-95" title="Kirim via WhatsApp (App / Web)" aria-label="Kirim WhatsApp ke ${escapeHtml(item.nama)}">
                 <i class="fa-brands fa-whatsapp text-sm"></i> <span>WA</span>
               </button>
 
-              <!-- Google Messages Button -->
-              <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (No HP otomatis disalin)">
+              <!-- 2. Google Messages Button -->
+              <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (No HP otomatis disalin)" aria-label="Kirim Google Messages ke ${escapeHtml(item.nama)}">
                 <i class="fa-solid fa-comment-dots text-sm"></i> <span>G-Messages</span>
               </button>
 
-              <!-- Preview Dialog Button -->
-              <button onclick="openPreviewModal(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Lihat Pratinjau Teks">
-                <i class="fa-regular fa-eye text-xs"></i>
+              <!-- 3. Salin Nomor HP -->
+              <button onclick="copyNoHpById(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition active:scale-95" title="Salin Nomor HP" aria-label="Salin nomor HP ${escapeHtml(item.nama)}">
+                <i class="fa-solid fa-phone text-xs"></i>
               </button>
 
-              <!-- Copy Message -->
-              <button onclick="copyPesanById(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Salin Teks Reminder">
+              <!-- 4. Salin Teks Reminder -->
+              <button onclick="copyPesanById(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition active:scale-95" title="Salin Teks Reminder" aria-label="Salin teks reminder untuk ${escapeHtml(item.nama)}">
                 <i class="fa-regular fa-copy text-xs"></i>
+              </button>
+
+              <!-- 5. Lihat Pratinjau Teks -->
+              <button onclick="openPreviewModal(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition active:scale-95" title="Lihat Pratinjau Teks" aria-label="Lihat pratinjau teks untuk ${escapeHtml(item.nama)}">
+                <i class="fa-regular fa-eye text-xs"></i>
               </button>
             </div>
           </td>
@@ -1990,6 +1995,13 @@
       } catch (err) {
         showToast('Gagal menyalin ke clipboard.', 'error');
       }
+    }
+
+    function copyNoHpById(id) {
+      const target = dataset.find(d => d.id === id);
+      if (!target) return;
+      const phone = String(target.noHp || '').trim();
+      copyToClipboard(phone, `Nomor HP (${phone})`);
     }
 
     function copyPesanById(id) {
