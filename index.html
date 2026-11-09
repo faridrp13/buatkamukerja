@@ -61,15 +61,72 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-  <!-- Custom Modular CSS -->
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+
+    /* Polish: Selection color */
+    ::selection {
+      background-color: #c7d2fe;
+      color: #1e1b4b;
+    }
+
+    .dark ::selection {
+      background-color: #3730a3;
+      color: #e0e7ff;
+    }
+
+    /* Polish: Tabular figures for data stability */
+    .tnum, [class*="font-mono"], table td, table th {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Polish: Focus rings & caret */
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid #4f46e5;
+      outline-offset: 2px;
+    }
+
+    input, textarea {
+      caret-color: #4f46e5;
+    }
+
+    /* Polish: Base Heading Typography Scale */
+    h1 {
+      font-size: 1.75rem;
+      line-height: 2.25rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+  </style>
 </head>
 
 <body
-  class="bg-slate-50 dark:bg-[#080d17] text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+  class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
 
   <!-- Toast Container -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+
 
   <!-- Modal Panduan Pairing Google Messages -->
   <div id="pair-guide-modal"
@@ -187,6 +244,7 @@
 
       <!-- Hero Header -->
       <div class="relative bg-brand-600 dark:bg-brand-900 p-6 text-white">
+
         <div class="relative flex items-start justify-between gap-4">
           <div>
             <div class="flex items-center gap-2 mb-1">
@@ -205,7 +263,7 @@
         </div>
       </div>
 
-      <!-- Tab Navigation Bar -->
+      <!-- Tab Navigation Bar (separate from header to avoid clipping) -->
       <div class="bg-indigo-700 dark:bg-indigo-900 px-4 pb-3 pt-0 flex items-center gap-1">
         <button onclick="switchManualTab('tab-mulai')" id="tab-btn-mulai"
           class="manual-tab-btn flex-1 py-2 rounded-xl text-xs font-bold bg-white/20 text-white transition">🚀
@@ -300,7 +358,7 @@
             <i class="fa-solid fa-lightbulb text-amber-500 text-base mt-0.5"></i>
             <div>
               <p class="font-bold text-xs text-amber-800 dark:text-amber-300">Tips</p>
-              <p class="text-[11px] text-amber-700 dark:text-amber-400 mt-0.5">Data Anda tersimpan aman di database SQLite server.
+              <p class="text-[11px] text-amber-700 dark:text-amber-400 mt-0.5">Data Anda tersimpan otomatis di browser.
                 Gunakan tombol <strong>Data Contoh</strong> untuk melihat demo tanpa harus upload file terlebih dahulu.
               </p>
             </div>
@@ -309,6 +367,7 @@
 
         <!-- ====== TAB: GOOGLE MESSAGES ====== -->
         <div id="tab-gmsg" class="manual-tab-content space-y-4 hidden">
+          <!-- Banner -->
           <div
             class="rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-100 dark:border-blue-900/50 p-4 flex gap-3 items-start">
             <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 text-sm">
@@ -323,6 +382,7 @@
             </div>
           </div>
 
+          <!-- Mode Selector Info -->
           <div class="grid grid-cols-2 gap-3">
             <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 space-y-1">
               <p class="font-bold text-xs text-slate-800 dark:text-white flex items-center gap-1.5"><span
@@ -340,7 +400,9 @@
             </div>
           </div>
 
-          <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cara Pairing Google Messages Web</p>
+          <!-- Pairing Steps -->
+          <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cara Pairing
+            Google Messages Web</p>
           <div class="space-y-3">
             <div class="flex gap-3 items-start">
               <div
@@ -349,7 +411,8 @@
               <div class="flex-1 pt-0.5">
                 <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Buka Google Messages di HP</p>
                 <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Pastikan aplikasi <strong>Pesan (Google
-                    Messages)</strong> sudah terpasang di HP Android Anda.</p>
+                    Messages)</strong> sudah terpasang di HP Android Anda. Ini adalah aplikasi pesan bawaan di sebagian
+                  besar perangkat Android.</p>
               </div>
             </div>
             <div class="flex gap-3 items-start">
@@ -376,11 +439,33 @@
                   browser laptop, lalu pindai QR code yang muncul menggunakan kamera HP Anda.</p>
               </div>
             </div>
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xs shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div
+                class="flex-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl p-3 border border-emerald-200 dark:border-emerald-900/50">
+                <p class="font-bold text-xs text-emerald-700 dark:text-emerald-300">Siap Digunakan!</p>
+                <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Semua SMS & RCS kini bisa dikirim
+                  langsung dari laptop Anda melalui YRES. Pilih mode <strong>Web</strong> pada selector Google Messages
+                  di tabel.</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="rounded-2xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 p-3 flex gap-2.5 items-start">
+            <i class="fa-solid fa-circle-info text-blue-500 text-sm mt-0.5"></i>
+            <p class="text-[11px] text-blue-700 dark:text-blue-300"><strong>Catatan:</strong> Koneksi pairing
+              membutuhkan HP dan laptop terhubung ke internet. Centang opsi <em>"Ingat perangkat ini"</em> agar tidak
+              perlu scan QR setiap saat.</p>
           </div>
         </div>
 
         <!-- ====== TAB: WHATSAPP ====== -->
         <div id="tab-wa" class="manual-tab-content space-y-4 hidden">
+          <!-- Banner -->
           <div
             class="rounded-2xl bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-950/40 dark:to-green-950/40 border border-emerald-100 dark:border-emerald-900/50 p-4 flex gap-3 items-start">
             <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 text-sm">
@@ -389,30 +474,122 @@
             <div>
               <p class="font-bold text-sm text-emerald-800 dark:text-emerald-300">WhatsApp</p>
               <p class="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">Kirim pesan WhatsApp ke
-                pelanggan langsung dari YRES. Tersedia mode <strong>App</strong> dan <strong>Web</strong>.
+                pelanggan langsung dari YRES. Tersedia mode <strong>App</strong> (membuka aplikasi WA di HP/Desktop) dan
+                <strong>Web</strong> (membuka WhatsApp Web di browser).
               </p>
             </div>
           </div>
 
+          <!-- Mode Cards -->
           <div class="grid grid-cols-2 gap-3">
             <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 space-y-1">
               <p class="font-bold text-xs text-slate-800 dark:text-white flex items-center gap-1.5"><span
                   class="w-5 h-5 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-[10px]"><i
                     class="fa-solid fa-mobile-screen"></i></span> Mode App</p>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Membuka aplikasi WhatsApp di HP atau WhatsApp
-                Desktop via skema wa.me.</p>
+                Desktop. Menggunakan skema <code
+                  class="bg-slate-100 dark:bg-slate-800 px-1 rounded text-[10px]">wa.me/</code>.</p>
             </div>
             <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 space-y-1">
               <p class="font-bold text-xs text-slate-800 dark:text-white flex items-center gap-1.5"><span
                   class="w-5 h-5 rounded-lg bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-300 flex items-center justify-center text-[10px]"><i
                     class="fa-solid fa-globe"></i></span> Mode Web</p>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Membuka <strong>web.whatsapp.com</strong> di
-                browser.</p>
+                browser. HP harus sudah dipasangkan dengan WhatsApp Web.</p>
             </div>
+          </div>
+
+          <!-- WA App Steps -->
+          <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cara Pairing
+            WhatsApp App (Desktop)</p>
+          <div class="space-y-3">
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                1</div>
+              <div class="flex-1 pt-0.5">
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Instal WhatsApp Desktop</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Unduh dan instal <a
+                    href="https://www.whatsapp.com/download" target="_blank"
+                    class="text-emerald-600 dark:text-emerald-400 font-semibold underline">WhatsApp Desktop</a> dari
+                  situs resmi untuk Windows atau Mac. Atau gunakan mode App langsung ke HP.</p>
+              </div>
+            </div>
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                2</div>
+              <div class="flex-1 pt-0.5">
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Buka Menu Perangkat Tertaut</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Di HP, buka WhatsApp → ketuk
+                  <strong>Tiga Titik (⋮)</strong> → pilih <strong>Perangkat Tertaut (Linked Devices)</strong> → ketuk
+                  <strong>Tautkan Perangkat</strong>.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                3</div>
+              <div class="flex-1 pt-0.5">
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Scan QR Code</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Arahkan kamera HP ke QR code yang
+                  muncul di WhatsApp Desktop atau di browser (web.whatsapp.com) hingga otomatis terhubung.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- WA Web Steps -->
+          <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cara Menggunakan
+            WhatsApp Web</p>
+          <div class="space-y-3">
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                1</div>
+              <div class="flex-1 pt-0.5">
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Buka WhatsApp Web</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Buka <a href="https://web.whatsapp.com"
+                    target="_blank"
+                    class="text-teal-600 dark:text-teal-400 font-semibold underline">web.whatsapp.com</a> di browser
+                  laptop (Chrome / Edge / Firefox).</p>
+              </div>
+            </div>
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                2</div>
+              <div class="flex-1 pt-0.5">
+                <p class="font-bold text-xs text-slate-800 dark:text-slate-100">Pindai QR Code</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Di HP: buka WhatsApp →
+                  <strong>Perangkat Tertaut → Tautkan Perangkat</strong> → pindai QR code yang tampil di browser laptop.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3 items-start">
+              <div
+                class="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xs shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div
+                class="flex-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl p-3 border border-emerald-200 dark:border-emerald-900/50">
+                <p class="font-bold text-xs text-emerald-700 dark:text-emerald-300">Siap Digunakan!</p>
+                <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Pilih mode <strong>Web</strong>
+                  pada selector WhatsApp di YRES, lalu klik tombol kirim. Pesan akan langsung terbuka di WhatsApp Web.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 p-3 flex gap-2.5 items-start">
+            <i class="fa-solid fa-shield-check text-emerald-500 text-sm mt-0.5"></i>
+            <p class="text-[11px] text-emerald-700 dark:text-emerald-300"><strong>Tips:</strong> Biarkan tab WhatsApp
+              Web tetap terbuka di background agar tombol kirim dari YRES langsung bekerja tanpa perlu login ulang.</p>
           </div>
         </div>
 
-      </div>
+      </div><!-- end scrollable -->
 
       <!-- Footer -->
       <div
@@ -423,7 +600,6 @@
       </div>
     </div>
   </div>
-
   <!-- Navbar -->
   <header
     class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
@@ -446,6 +622,9 @@
 
       <!-- Quick Actions & Theme Toggle -->
       <div class="flex items-center gap-2">
+
+
+
         <button onclick="loadSampleData()"
           class="hidden md:inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Data Contoh
@@ -483,7 +662,7 @@
 
       <!-- Card 1: Total Pelanggan -->
       <div
-        class="glass-card bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-brand-500/50 transition">
+        class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-brand-500/50 transition">
         <div class="flex justify-between items-start">
           <div>
             <p class="text-xs font-bold text-slate-400 dark:text-slate-500">Total Pelanggan</p>
@@ -502,7 +681,7 @@
 
       <!-- Card 2: Sudah Selesai -->
       <div
-        class="glass-card bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-emerald-500/50 transition">
+        class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-emerald-500/50 transition">
         <div class="flex justify-between items-start">
           <div>
             <p class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Sudah Selesai</p>
@@ -521,7 +700,7 @@
 
       <!-- Card 3: Belum Selesai -->
       <div
-        class="glass-card bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-amber-500/50 transition">
+        class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-amber-500/50 transition">
         <div class="flex justify-between items-start">
           <div>
             <p class="text-xs font-bold text-amber-600 dark:text-amber-400">Belum Selesai</p>
@@ -540,7 +719,7 @@
 
       <!-- Card 4: Persentase Penyelesaian -->
       <div
-        class="glass-card bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-indigo-500/50 transition flex flex-col justify-between">
+        class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:border-indigo-500/50 transition flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
             <p class="text-xs font-bold text-slate-400 dark:text-slate-500">Progress Reminder</p>
@@ -561,9 +740,9 @@
     <!-- Drag & Drop Upload Zone & Tools Section -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Excel Dropzone -->
+      <!-- Excel Dropzone (2 cols on large screen) -->
       <div
-        class="glass-card lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        class="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-2">
@@ -613,7 +792,7 @@
 
       <!-- Template Pesan Card (Sistem 3 Format ON/OFF) -->
       <div
-        class="glass-card bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col justify-between">
         <div>
           <!-- Header Card -->
           <div class="flex items-center justify-between mb-3">
@@ -641,6 +820,7 @@
                   </div>
                   <p class="text-[10px] font-medium text-slate-600 dark:text-slate-200 leading-tight">Tunggakan</p>
                 </div>
+                <!-- Mini Toggle Switch Track -->
                 <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/80 dark:border-slate-700/80">
                   <span class="text-[9px] font-semibold text-slate-500 dark:text-slate-300">Status</span>
                   <div id="tpl-toggle-track-1" class="w-7 h-4 bg-emerald-500 rounded-full relative transition-colors p-0.5">
@@ -659,6 +839,7 @@
                   </div>
                   <p class="text-[10px] font-medium text-slate-600 dark:text-slate-200 leading-tight">Cicilan REHAB</p>
                 </div>
+                <!-- Mini Toggle Switch Track -->
                 <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/80 dark:border-slate-700/80">
                   <span class="text-[9px] font-semibold text-slate-500 dark:text-slate-300">Status</span>
                   <div id="tpl-toggle-track-2" class="w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5">
@@ -677,6 +858,7 @@
                   </div>
                   <p class="text-[10px] font-medium text-slate-600 dark:text-slate-200 leading-tight">VA & Detail</p>
                 </div>
+                <!-- Mini Toggle Switch Track -->
                 <div class="mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/80 dark:border-slate-700/80">
                   <span class="text-[9px] font-semibold text-slate-500 dark:text-slate-300">Status</span>
                   <div id="tpl-toggle-track-3" class="w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5">
@@ -728,7 +910,7 @@
 
     <!-- Table Section with Filters and Bulk Actions -->
     <div
-      class="table-glass bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+      class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
 
       <!-- Table Controls Bar -->
       <div
@@ -878,13 +1060,1118 @@
         <p>© 2026 YURA Reminder System (YRES). Terintegrasi untuk WhatsApp & Google Messages.</p>
       </div>
       <p class="flex items-center gap-1">
-        🩵<span class="font-semibold text-slate-600 dark:text-slate-300">Made With Love</span>❤️
+        Ditenagai oleh <span class="font-semibold text-slate-600 dark:text-slate-300">SheetJS & Tailwind CSS</span>
       </p>
     </div>
   </footer>
 
-  <!-- Modular JavaScript Application Entry -->
-  <script src="js/main.js"></script>
+  <script>
+    // State Aplikasi
+    let dataset = [];
+    let currentFilter = 'Belum';
+    const STORAGE_KEY = 'yres_modern_dataset_v3';
+    const THEME_KEY = 'yres_theme_mode';
+
+    // Sort State
+    let sortNama = 'default';    // 'default' | 'az' | 'za'
+    let sortNominal = 'default'; // 'default' | 'high' | 'low'
+
+    // 3 Format Template Default Sesuai Instruksi
+    const DEFAULT_TEMPLATES = {
+      1: 'Yth.Keluarga {nama}, No. Kartu {no kartu}, memiliki tunggakan BPJS Kesehatan sebesar {nominal} samapai dengan {date today}. Mohon segeara melakukan pembayaran melalui kanal resmi BPJS Kesehatan. Terima kasih. Info Whatsapp: 081314850792.',
+      2: 'Yth.Keluarga {nama}, No. Kartu {no kartu}. Kami BPJS Kesehatan izin mengingatkan untuk dapat segera melakukab pembayaran cicilan REHAB bulab {month year today} melalui kanal resmi. Info iuran dapat dilihat pada aplikasi Mobile JKN.\n\nInformasi lebih lanjut dapat menghubungi Call Center BPJS Kesehatan 165 (24 jam). Salam BPJS Kesehatan. Semoga sehat selalu.',
+      3: 'Yth. Keluarga Bpk/Ibu {nama}, No. Kartu {no kartu}, tunggakan BPJS Kesehatan sebesar {nominal} sampai dengan {date hari ini}. Segera lakukan pembayaran melalui kanal resmi. Info iuran dapat dilihat pada aplikasi Mobile JKN.\n\nPembayaran BPJS Kesehatan dapat melalui kanal yang tersedia:\n1. Indomaret / Alfamart / Shopee / OVO / GoPay / DANA / Kantor Pos / PT Pos (dengan menunjukkan Nomor Kartu BPJS Kesehatan)\n2. Bank / ATM / Mobile Banking melalui menu Pembayaran / M-Payment\nKode Virtual Account untuk pembayaran melalui Bank (ATM atau Mobile Banking):\n- Mandiri : 89888{no kartu.slice 2}\n- BCA / BRI / BNI : 88888{no kartu.slice 2}\n- Jika terdapat pilihan berapa bulan pembayaran, silakan pilih 1 (satu) bulan karena tunggakan akan terakumulasi.\n\nUntuk informasi lebih lanjut dapat menghubungi BPJS Kesehatan Care Center 165 (24 jam). Salam Sehat,BPJS Kesehatan Semoga sehat selalu.'
+    };
+
+    const TEMPLATES_STORAGE_KEY = 'yres_templates_store_v3';
+    const ACTIVE_TPL_KEY = 'yres_active_tpl_id_v3';
+
+    let templates = { ...DEFAULT_TEMPLATES };
+    let activeTemplateId = 1;
+
+    // Avatar Color Palette
+    const AVATAR_COLORS = [
+      'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300',
+      'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300',
+      'bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300',
+      'bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300',
+      'bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300',
+      'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300'
+    ];
+
+    // Format Tanggal & Bulan Dinamis (Hari Ini sampai ke depannya)
+    function getIndonesianDateToday() {
+      const now = new Date();
+      const day = now.getDate();
+      const month = now.getMonth() + 1;
+      const formattedDay = String(day).padStart(2, '0');
+      const formattedMonth = String(month).padStart(2, '0');
+      return `${formattedDay}/${formattedMonth}/${now.getFullYear()}`;
+    }
+
+    function getIndonesianMonthYearToday() {
+      const now = new Date();
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      return `${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    // Inisialisasi Template & Sistem ON / OFF
+    function initTemplates() {
+      const savedTemplates = localStorage.getItem(TEMPLATES_STORAGE_KEY);
+      if (savedTemplates) {
+        try {
+          const parsed = JSON.parse(savedTemplates);
+          templates = { ...DEFAULT_TEMPLATES, ...parsed };
+        } catch (e) {
+          templates = { ...DEFAULT_TEMPLATES };
+        }
+      }
+
+      const savedActive = localStorage.getItem(ACTIVE_TPL_KEY);
+      if (savedActive && templates[savedActive]) {
+        activeTemplateId = parseInt(savedActive, 10);
+      } else {
+        activeTemplateId = 1;
+      }
+
+      updateTemplateUI();
+    }
+
+    // Ubah Format Aktif (Sistem ON / OFF)
+    function selectTemplateFormat(id) {
+      activeTemplateId = id;
+      localStorage.setItem(ACTIVE_TPL_KEY, String(id));
+      updateTemplateUI();
+      renderTable();
+      showToast(`Format ${id} Aktif (ON)`, 'success');
+    }
+
+    // Perbarui Tampilan Switcher & Editor Template
+    function updateTemplateUI() {
+      const textarea = document.getElementById('custom-message-template');
+      if (textarea) {
+        textarea.value = templates[activeTemplateId] || DEFAULT_TEMPLATES[activeTemplateId];
+      }
+
+      [1, 2, 3].forEach(id => {
+        const card = document.getElementById(`tpl-card-${id}`);
+        const badge = document.getElementById(`tpl-status-badge-${id}`);
+        const track = document.getElementById(`tpl-toggle-track-${id}`);
+        const thumb = document.getElementById(`tpl-toggle-thumb-${id}`);
+
+        const isActive = id === activeTemplateId;
+
+        if (card) {
+          if (isActive) {
+            card.className = 'tpl-option-btn p-2.5 rounded-xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-brand-50/80 dark:bg-brand-950/80 border-brand-500 dark:border-brand-500 ring-2 ring-brand-500/30 dark:ring-brand-500/40 shadow-sm';
+          } else {
+            card.className = 'tpl-option-btn p-2.5 rounded-xl border text-left transition flex flex-col justify-between relative group cursor-pointer bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600';
+          }
+        }
+
+        if (badge) {
+          if (isActive) {
+            badge.textContent = 'ON';
+            badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-500 text-white shadow-xs';
+          } else {
+            badge.textContent = 'OFF';
+            badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-200';
+          }
+        }
+
+        if (track && thumb) {
+          if (isActive) {
+            track.className = 'w-7 h-4 bg-emerald-500 rounded-full relative transition-colors p-0.5';
+            thumb.className = 'w-3 h-3 bg-white rounded-full transition-transform translate-x-3 shadow-xs';
+          } else {
+            track.className = 'w-7 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative transition-colors p-0.5';
+            thumb.className = 'w-3 h-3 bg-white rounded-full transition-transform translate-x-0 shadow-xs';
+          }
+        }
+      });
+
+      const infoLabel = document.getElementById('tpl-active-info');
+      if (infoLabel) {
+        infoLabel.innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Format ${activeTemplateId} Aktif (ON)
+        `;
+      }
+    }
+
+    // Simpan Perubahan Template Aktif
+    function saveCurrentTemplate() {
+      const textarea = document.getElementById('custom-message-template');
+      templates[activeTemplateId] = textarea.value;
+      localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(templates));
+      renderTable();
+    }
+
+    // Reset Template Aktif ke Default
+    function resetActiveTemplateDefault() {
+      templates[activeTemplateId] = DEFAULT_TEMPLATES[activeTemplateId];
+      localStorage.setItem(TEMPLATES_STORAGE_KEY, JSON.stringify(templates));
+      updateTemplateUI();
+      renderTable();
+      showToast(`Format ${activeTemplateId} dikembalikan ke teks default`, 'info');
+    }
+
+    // Sisipkan Tag Variabel ke Textarea
+    function insertTag(tag) {
+      const textarea = document.getElementById('custom-message-template');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      textarea.value = text.substring(0, start) + tag + text.substring(end);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = start + tag.length;
+      saveCurrentTemplate();
+    }
+
+    // Bangun Pesan Dinamis dengan Tag Variabel Sesuai Template Aktif
+    function buildMessage(item) {
+      const rawTemplate = templates[activeTemplateId] || DEFAULT_TEMPLATES[activeTemplateId] || '';
+      const dateToday = getIndonesianDateToday();
+      const monthYearToday = getIndonesianMonthYearToday();
+
+      // Ekstraksi nomor kartu dan slice 2 untuk Virtual Account Bank
+      const rawCard = String(item.noKartu || '');
+      const digits = rawCard.replace(/\D/g, '');
+      const cardSlice2 = digits.length >= 2 ? digits.slice(2) : (rawCard.length >= 2 ? rawCard.slice(2) : rawCard);
+
+      return rawTemplate
+        .replace(/{(?:no\s*kartu|noKartu)\.slice\s*\(?2\)?}/gi, cardSlice2)
+        .replace(/{(?:no\s*kartu|noKartu)}/gi, rawCard || '-')
+        .replace(/{nama}/gi, item.nama || '-')
+        .replace(/{nominal}/gi, formatRupiah(item.nominal))
+        .replace(/{(?:date\s*today|date\s*hari\s*ini|date_today|date_hari_ini)}/gi, dateToday)
+        .replace(/{(?:month\s*year\s*today|month_year_today|bulan\s*tahun\s*hari\s*ini)}/gi, monthYearToday);
+    }
+
+    // Inisialisasi Halaman
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initDragAndDrop();
+      updateTargetModesUI();
+      initTemplates();
+
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('yres_modern_dataset_v2');
+      if (saved) {
+        try {
+          dataset = JSON.parse(saved);
+          if (dataset.length > 0) {
+            document.getElementById('file-info').textContent = `Tersimpan di browser (${dataset.length} baris)`;
+          }
+        } catch (e) {
+          console.error('Error saat parse data:', e);
+        }
+      }
+      setFilter('Belum');
+    });
+
+    // Theme Switcher (Dark / Light)
+    function initTheme() {
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      showToast(isDark ? 'Mode gelap diaktifkan' : 'Mode terang diaktifkan', 'info');
+    }
+
+    // Drag and Drop Handling
+    function initDragAndDrop() {
+      const dropArea = document.getElementById('drop-area');
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropArea.classList.add('border-brand-500', 'bg-brand-50/50', 'dark:bg-brand-950/30');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropArea.classList.remove('border-brand-500', 'bg-brand-50/50', 'dark:bg-brand-950/30');
+        }, false);
+      });
+
+      dropArea.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length > 0) {
+          handleFile(files[0]);
+        }
+      });
+    }
+
+    // Helper: Simpan data ke local storage
+    function saveDataset() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataset));
+    }
+
+    // Helper: Escape Karakter HTML
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Format Rupiah
+    function formatRupiah(angka) {
+      const num = Number(angka) || 0;
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+    }
+
+    // Bersihkan nomor handphone (Format internasional Indonesia 62xxx, tanpa +)
+    function cleanPhoneNumber(hp) {
+      let cleaned = String(hp || '').replace(/[^0-9]/g, '');
+      if (cleaned.startsWith('0')) {
+        cleaned = '62' + cleaned.slice(1);
+      } else if (cleaned.startsWith('8')) {
+        cleaned = '62' + cleaned;
+      }
+      return cleaned;
+    }
+
+    // Format nomor ke +62xxx (untuk G-Messages)
+    function cleanPhoneNumberGM(hp) {
+      let cleaned = String(hp || '').replace(/[^0-9]/g, '');
+      if (cleaned.startsWith('0')) {
+        cleaned = '62' + cleaned.slice(1);
+      } else if (cleaned.startsWith('8')) {
+        cleaned = '62' + cleaned;
+      }
+      return '+' + cleaned;
+    }
+
+    // Format avatar inisial
+    function getInitials(name) {
+      const parts = String(name || '').trim().split(' ');
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return (name ? name.slice(0, 2) : '??').toUpperCase();
+    }
+
+    // Toast Notification
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+
+      const themeColors = {
+        success: 'bg-emerald-600 text-white shadow-emerald-600/20',
+        error: 'bg-rose-600 text-white shadow-rose-600/20',
+        info: 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-slate-900/20',
+        warning: 'bg-amber-600 text-white shadow-amber-600/20'
+      };
+
+      const icons = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-exclamation',
+        info: 'fa-circle-info',
+        warning: 'fa-triangle-exclamation'
+      };
+
+      toast.className = `${themeColors[type] || themeColors.info} pointer-events-auto px-4 py-3 rounded-2xl shadow-xl text-xs font-semibold flex items-center gap-2.5 transform transition-all duration-300 translate-y-3 opacity-0`;
+      toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-sm"></i> <span>${escapeHtml(message)}</span>`;
+
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-3', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-3');
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    // Muat Sample Data (dengan simulasi urutan selesai)
+    function loadSampleData() {
+      const now = Date.now();
+      const timeOlder = new Date(now - 120000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+      const timeNewer = new Date(now - 30000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+      dataset = [
+        { id: 0, noKartu: '0001882100123', nama: 'Budi Santoso', noHp: '081234567890', nominal: 450000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 1, noKartu: '0001882100456', nama: 'Siti Rahmawati', noHp: '085712345678', nominal: 1250000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 2, noKartu: '0001882100891', nama: 'Ahmad Fauzi', noHp: '087898765432', nominal: 750000, status: 'Selesai', jamSelesai: timeOlder, selesaiAt: now - 120000 },
+        { id: 3, noKartu: '0001882101034', nama: 'Dewi Lestari', noHp: '089611223344', nominal: 320000, status: 'Belum', jamSelesai: null, selesaiAt: null },
+        { id: 4, noKartu: '0001882102157', nama: 'Hendra Gunawan', noHp: '082155667788', nominal: 980000, status: 'Selesai', jamSelesai: timeNewer, selesaiAt: now - 30000 },
+        { id: 5, noKartu: '0001882103019', nama: 'Rina Kusuma', noHp: '081399887766', nominal: 600000, status: 'Belum', jamSelesai: null, selesaiAt: null }
+      ];
+      document.getElementById('file-info').textContent = 'Data Simulasi Demo (6 baris)';
+      saveDataset();
+      renderTable();
+      showToast('Data contoh berhasil dimuat!', 'success');
+    }
+
+    // Unduh Template Excel
+    function downloadTemplateExcel() {
+      const templateData = [
+        { No_Kartu: '0001882100001', Nama: 'Budi Santoso', No_HP: '081234567890', Nominal: 500000, Status: 'Belum' },
+        { No_Kartu: '0001882100002', Nama: 'Siti Aminah', No_HP: '085712345678', Nominal: 750000, Status: 'Belum' }
+      ];
+      const worksheet = XLSX.utils.json_to_sheet(templateData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Data_Tagihan');
+      XLSX.writeFile(workbook, 'Template_YRES_Tagihan.xlsx');
+      showToast('Template Excel berhasil diunduh.', 'info');
+    }
+
+    // Proses File Excel
+    function prosesExcel() {
+      const fileInput = document.getElementById('excel-file');
+      if (fileInput.files.length > 0) {
+        handleFile(fileInput.files[0]);
+      }
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      document.getElementById('file-info').textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const rawData = XLSX.utils.sheet_to_json(worksheet);
+
+          if (!rawData || rawData.length === 0) {
+            showToast('File Excel kosong atau format tidak sesuai.', 'error');
+            return;
+          }
+
+          const nowMs = Date.now();
+          const nowFormattedTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+          dataset = rawData.map((row, idx) => {
+            const isDone = String(row.Status || row.status || 'Belum').trim().toLowerCase() === 'selesai';
+            return {
+              id: idx,
+              noKartu: row.No_Kartu || row['No Kartu'] || row.no_kartu || row.Kartu || '-',
+              nama: row.Nama || row.nama || row.Customer || '-',
+              noHp: row.No_HP || row['No HP'] || row.no_hp || row.Telepon || row.HP || '-',
+              nominal: Number(row.Nominal || row.Tagihan || row.nominal || 0),
+              status: isDone ? 'Selesai' : 'Belum',
+              jamSelesai: row.Jam || row.jam || row.Waktu || row.waktu || (isDone ? nowFormattedTime : null),
+              selesaiAt: isDone ? (nowMs - (rawData.length - idx) * 1000) : null
+            };
+          });
+
+          saveDataset();
+          renderTable();
+          showToast(`Berhasil memuat ${dataset.length} pelanggan dari Excel.`, 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Gagal membaca file Excel.', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // Set Filter Status Tab (Belum Selesai - Selesai - Semua)
+    function setFilter(status) {
+      currentFilter = status;
+      ['Belum', 'Selesai', 'ALL'].forEach(tab => {
+        const btn = document.getElementById(`tab-${tab}`);
+        if (!btn) return;
+        if (tab === status) {
+          btn.className = 'filter-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-900 shadow-sm text-slate-800 dark:text-white';
+        } else {
+          btn.className = 'filter-tab px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        }
+      });
+      renderTable();
+    }
+
+    // Bersihkan kata kunci pencarian
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('clear-search-btn').classList.add('hidden');
+      renderTable();
+    }
+
+    // Render Tabel Utama & KPI
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      updateKPIs();
+      updateSortIcons();
+
+      const searchInput = document.getElementById('search-input');
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const clearBtn = document.getElementById('clear-search-btn');
+
+      if (searchTerm) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      if (dataset.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-16 text-slate-400 dark:text-slate-500">
+              <div class="flex flex-col items-center justify-center gap-3">
+                <div class="w-14 h-14 rounded-3xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-2xl text-slate-400">
+                  <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <div>
+                  <p class="font-bold text-slate-700 dark:text-slate-200">Belum Ada Data Tagihan</p>
+                  <p class="text-xs text-slate-400 mt-0.5">Silakan seret file Excel atau klik tombol <strong class="text-brand-600 dark:text-brand-400 cursor-pointer" onclick="loadSampleData()">"Data Contoh"</strong></p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+        document.getElementById('row-count-info').textContent = 'Menampilkan 0 dari 0 data';
+        return;
+      }
+
+      // Filter: Kolom Semua menampilkan semua peserta (baik belum selesai maupun selesai)
+      let filtered = dataset.filter(item => {
+        let matchesStatus = true;
+        if (currentFilter === 'Belum') {
+          matchesStatus = item.status !== 'Selesai';
+        } else if (currentFilter === 'Selesai') {
+          matchesStatus = item.status === 'Selesai';
+        } // jika 'ALL', maka matchesStatus = true (tampilkan semua)
+
+        const matchesSearch = !searchTerm ||
+          String(item.nama).toLowerCase().includes(searchTerm) ||
+          String(item.noKartu).toLowerCase().includes(searchTerm) ||
+          String(item.noHp).toLowerCase().includes(searchTerm);
+        return matchesStatus && matchesSearch;
+      });
+
+      // Point 3: Pada kolom "selesai" dibuat urutannya yang dari paling atas adalah yang terbaru lalu kebawah yang selesai lebih dulu
+      if (currentFilter === 'Selesai') {
+        filtered.sort((a, b) => {
+          const timeA = a.selesaiAt || 0;
+          const timeB = b.selesaiAt || 0;
+          if (timeB !== timeA) return timeB - timeA;
+          return b.id - a.id;
+        });
+      }
+
+      // Sorting berdasarkan Nama (A-Z / Z-A)
+      if (sortNama === 'az') {
+        filtered.sort((a, b) => String(a.nama).localeCompare(String(b.nama), 'id'));
+      } else if (sortNama === 'za') {
+        filtered.sort((a, b) => String(b.nama).localeCompare(String(a.nama), 'id'));
+      }
+
+      // Sorting berdasarkan Nominal (Tertinggi / Terendah)
+      if (sortNominal === 'high') {
+        filtered.sort((a, b) => (Number(b.nominal) || 0) - (Number(a.nominal) || 0));
+      } else if (sortNominal === 'low') {
+        filtered.sort((a, b) => (Number(a.nominal) || 0) - (Number(b.nominal) || 0));
+      }
+
+      const filterTitle = currentFilter === 'ALL' ? 'Semua' : currentFilter === 'Belum' ? 'Belum Selesai' : 'Selesai';
+      document.getElementById('row-count-info').textContent = `Menampilkan ${filtered.length} dari ${dataset.length} data (${filterTitle})`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-12 text-slate-400 dark:text-slate-500">
+              <i class="fa-solid fa-magnifying-glass text-xl mb-2 block opacity-50"></i>
+              Tidak ada data yang cocok dengan kriteria filter "${filterTitle}".
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      // Point 2: Urutan kolom diubah menjadi # - no. kartu - nama - no. hp - nominal - status - tindakan pengingat
+      filtered.forEach((item, index) => {
+        const isSelesai = item.status === 'Selesai';
+        const colorClass = AVATAR_COLORS[item.id % AVATAR_COLORS.length];
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition duration-150 border-b border-slate-100 dark:border-slate-800/80 group";
+
+        tr.innerHTML = `
+          <!-- 1. # -->
+          <td class="py-3.5 px-4 text-center font-mono text-[11px] text-slate-400">${index + 1}</td>
+          
+          <!-- 2. No. Kartu -->
+          <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300">
+            <span class="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/60 dark:border-slate-700 text-[11px] font-medium tracking-wide">
+              ${escapeHtml(item.noKartu)}
+            </span>
+          </td>
+
+          <!-- 3. Nama -->
+          <td class="py-3.5 px-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-xl ${colorClass} flex items-center justify-center font-bold text-xs tracking-wider shrink-0 shadow-sm">
+                ${getInitials(item.nama)}
+              </div>
+              <div class="font-bold text-slate-800 dark:text-slate-100 text-xs">
+                ${escapeHtml(item.nama)}
+              </div>
+            </div>
+          </td>
+
+          <!-- 4. No. HP -->
+          <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-300">
+            <div class="flex items-center gap-1.5">
+              <span>${escapeHtml(item.noHp)}</span>
+              <button onclick="copyToClipboard('${escapeHtml(item.noHp)}', 'Nomor HP')" title="Salin No HP" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-[10px]">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </td>
+
+          <!-- 5. Nominal -->
+          <td class="py-3.5 px-4 text-right font-extrabold font-mono ${isSelesai ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-100'}">
+            ${formatRupiah(item.nominal)}
+          </td>
+
+          <!-- 6. Status -->
+          <td class="py-3.5 px-4 text-center">
+            <button onclick="toggleStatus(${item.id})" title="Klik untuk mengubah status" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold cursor-pointer transition select-none active:scale-95 ${isSelesai
+            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-400 hover:bg-emerald-200'
+            : 'bg-amber-100 text-amber-700 dark:bg-amber-950/70 dark:text-amber-400 hover:bg-amber-200'
+          }">
+              <span class="w-1.5 h-1.5 rounded-full ${isSelesai ? 'bg-emerald-500' : 'bg-amber-500'}"></span>
+              ${escapeHtml(item.status)}
+            </button>
+            ${isSelesai && item.jamSelesai ? `<div class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(item.jamSelesai)}</div>` : ''}
+          </td>
+
+          <!-- 7. Tindakan Pengingat -->
+          <td class="py-3.5 px-6 text-center">
+            <div class="flex items-center justify-center gap-2">
+              
+              <!-- WhatsApp Button -->
+              <button onclick="sendDirectWhatsApp(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-sm hover:shadow-emerald-600/30 transition active:scale-95" title="Kirim via WhatsApp (App / Web)">
+                <i class="fa-brands fa-whatsapp text-sm"></i> <span>WA</span>
+              </button>
+
+              <!-- Google Messages Button -->
+              <button onclick="sendDirectGoogleMessages(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm hover:shadow-blue-600/30 transition active:scale-95" title="Kirim via Google Messages (No HP otomatis disalin)">
+                <i class="fa-solid fa-comment-dots text-sm"></i> <span>G-Messages</span>
+              </button>
+
+              <!-- Preview Dialog Button -->
+              <button onclick="openPreviewModal(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Lihat Pratinjau Teks">
+                <i class="fa-regular fa-eye text-xs"></i>
+              </button>
+
+              <!-- Copy Message -->
+              <button onclick="copyPesanById(${item.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Salin Teks Reminder">
+                <i class="fa-regular fa-copy text-xs"></i>
+              </button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // State Target Mode Pengiriman (WhatsApp & Google Messages)
+    let waMode = localStorage.getItem('yres_wa_mode') || 'web'; // 'web' atau 'app'
+    let gmMode = localStorage.getItem('yres_gm_mode') || 'app'; // 'app' (sms:) atau 'web'
+
+    function setWaMode(mode) {
+      waMode = mode;
+      localStorage.setItem('yres_wa_mode', mode);
+      updateTargetModesUI();
+      showToast(mode === 'web' ? 'Target WhatsApp: Web Browser (web.whatsapp.com)' : 'Target WhatsApp: Aplikasi WhatsApp (wa.me / Desktop App)', 'info');
+    }
+
+    function setGmMode(mode) {
+      gmMode = mode;
+      localStorage.setItem('yres_gm_mode', mode);
+      updateTargetModesUI();
+      showToast(mode === 'app' ? 'Target G-Messages: Aplikasi SMS / HP (sms:)' : 'Target G-Messages: Web Browser (messages.google.com)', 'info');
+    }
+
+    function updateTargetModesUI() {
+      const btnWaApp = document.getElementById('wa-mode-app');
+      const btnWaWeb = document.getElementById('wa-mode-web');
+      if (btnWaApp && btnWaWeb) {
+        if (waMode === 'app') {
+          btnWaApp.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition bg-emerald-600 text-white shadow-sm';
+          btnWaWeb.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        } else {
+          btnWaWeb.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition bg-emerald-600 text-white shadow-sm';
+          btnWaApp.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        }
+      }
+
+      const btnGmApp = document.getElementById('gm-mode-app');
+      const btnGmWeb = document.getElementById('gm-mode-web');
+      if (btnGmApp && btnGmWeb) {
+        if (gmMode === 'app') {
+          btnGmApp.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow-sm';
+          btnGmWeb.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        } else {
+          btnGmWeb.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow-sm';
+          btnGmApp.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        }
+      }
+    }
+
+    // Eksekusi Langsung WhatsApp (1 Klik Langsung ke Chat)
+    function sendDirectWhatsApp(id) {
+      const target = dataset.find(d => d.id === id);
+      if (!target) return;
+
+      const msg = buildMessage(target);
+      const formattedHp = cleanPhoneNumber(target.noHp);
+      const encodedMsg = encodeURIComponent(msg);
+
+      // Salin pesan ke clipboard
+      navigator.clipboard.writeText(msg).catch(() => { });
+
+      // Tandai baris sebagai Selesai
+      markDone(target.id);
+
+      if (waMode === 'web') {
+        window.open(`https://web.whatsapp.com/send?phone=${formattedHp}&text=${encodedMsg}`, '_blank');
+        showToast(`Membuka WhatsApp Web untuk ${target.nama}...`, 'success');
+      } else {
+        window.open(`https://wa.me/${formattedHp}?text=${encodedMsg}`, '_blank');
+        showToast(`Membuka aplikasi WhatsApp untuk ${target.nama}...`, 'success');
+      }
+    }
+
+    // Eksekusi Langsung Google Messages (1 Klik Langsung ke Chat & Salin No HP)
+    function sendDirectGoogleMessages(id) {
+      const target = dataset.find(d => d.id === id);
+      if (!target) return;
+
+      const msg = buildMessage(target);
+      const formattedHpGM = cleanPhoneNumberGM(target.noHp); // Format +62xxx
+      const encodedMsg = encodeURIComponent(msg);
+      const phoneToCopy = String(target.noHp || '').trim();
+
+      // Salin nomor telepon ke clipboard hanya untuk mode App
+      if (gmMode !== 'web') {
+        copyToClipboard(phoneToCopy, `Nomor HP (${phoneToCopy})`);
+      }
+
+      // Tandai baris sebagai Selesai
+      markDone(target.id);
+
+      if (gmMode === 'web') {
+        window.open(`https://messages.google.com/web/conversations/new?q=${encodeURIComponent(formattedHpGM)}`, '_blank');
+        showToast(`Membuka Google Messages Web untuk ${target.nama}...`, 'info');
+      } else {
+        window.location.href = `sms:${formattedHpGM}?body=${encodedMsg}`;
+        showToast(`Membuka chat Google Messages untuk ${target.nama}...`, 'info');
+      }
+    }
+
+    // Pairing Guide Modal
+    function openPairGuideModal() {
+      const modal = document.getElementById('pair-guide-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePairGuideModal() {
+      const modal = document.getElementById('pair-guide-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Perbarui Statistik & Progress Bar
+    function updateKPIs() {
+      const total = dataset.length;
+      const selesaiList = dataset.filter(d => d.status === 'Selesai');
+      const belumList = dataset.filter(d => d.status !== 'Selesai');
+
+      const selesaiCount = selesaiList.length;
+      const belumCount = belumList.length;
+
+      const nominalSelesai = selesaiList.reduce((acc, cur) => acc + (Number(cur.nominal) || 0), 0);
+      const nominalBelum = belumList.reduce((acc, cur) => acc + (Number(cur.nominal) || 0), 0);
+
+      const percent = total > 0 ? Math.round((selesaiCount / total) * 100) : 0;
+
+      document.getElementById('total-peserta').innerText = total;
+      document.getElementById('total-selesai').innerText = selesaiCount;
+      document.getElementById('total-belum').innerText = belumCount;
+
+      // Update badge tabs: Semua = total, Belum = belumCount, Selesai = selesaiCount
+      const badgeAll = document.getElementById('badge-all');
+      if (badgeAll) badgeAll.innerText = total;
+      const badgeBelum = document.getElementById('badge-belum');
+      if (badgeBelum) badgeBelum.innerText = belumCount;
+      const badgeSelesai = document.getElementById('badge-selesai');
+      if (badgeSelesai) badgeSelesai.innerText = selesaiCount;
+
+      document.getElementById('nominal-selesai').innerText = formatRupiah(nominalSelesai);
+      document.getElementById('nominal-belum').innerText = formatRupiah(nominalBelum);
+
+      document.getElementById('progress-percent').innerText = `${percent}%`;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+
+      if (total > 0) {
+        document.getElementById('kpi-total-sub').innerText = `Total tagihan: ${formatRupiah(nominalSelesai + nominalBelum)}`;
+      } else {
+        document.getElementById('kpi-total-sub').innerText = 'Belum ada data';
+      }
+    }
+
+    // Toggle status tunggal (Point 3: set selesaiAt dan jamSelesai saat diubah)
+    function toggleStatus(id) {
+      const target = dataset.find(d => d.id === id);
+      if (target) {
+        const isNowSelesai = target.status !== 'Selesai';
+        target.status = isNowSelesai ? 'Selesai' : 'Belum';
+        target.selesaiAt = isNowSelesai ? Date.now() : null;
+        target.jamSelesai = isNowSelesai ? (new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB') : null;
+        saveDataset();
+        renderTable();
+        showToast(`Status ${target.nama} diubah ke ${target.status}`, 'info');
+      }
+    }
+
+    // Tandai selesai ketika klik link kirim
+    function markDone(id) {
+      const target = dataset.find(d => d.id === id);
+      if (target && target.status !== 'Selesai') {
+        target.status = 'Selesai';
+        target.selesaiAt = Date.now();
+        target.jamSelesai = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+        saveDataset();
+        setTimeout(() => renderTable(), 250);
+      }
+    }
+
+    // Tandai Semua Selesai sekaligus
+    function markAllCompleted() {
+      if (dataset.length === 0) {
+        showToast('Tidak ada data yang dapat ditandai.', 'warning');
+        return;
+      }
+      const pendingCount = dataset.filter(d => d.status !== 'Selesai').length;
+      if (pendingCount === 0) {
+        showToast('Semua data sudah berstatus Selesai.', 'info');
+        return;
+      }
+      if (confirm(`Apakah Anda ingin menandai seluruh ${pendingCount} pelanggan yang belum selesai menjadi Selesai?`)) {
+        const nowMs = Date.now();
+        const nowFormatted = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+        dataset.forEach((item, idx) => {
+          if (item.status !== 'Selesai') {
+            item.status = 'Selesai';
+            item.selesaiAt = nowMs + idx;
+            item.jamSelesai = nowFormatted;
+          }
+        });
+        saveDataset();
+        renderTable();
+        showToast('Seluruh pelanggan berhasil ditandai Selesai!', 'success');
+      }
+    }
+
+    // Modal Pratinjau WhatsApp Chat
+    let activePreviewTarget = null;
+
+    function openPreviewModal(id) {
+      const target = dataset.find(d => d.id === id);
+      if (!target) return;
+      activePreviewTarget = target;
+
+      const modal = document.getElementById('preview-modal');
+      const card = document.getElementById('preview-modal-card');
+      const nameEl = document.getElementById('preview-customer-name');
+      const bodyEl = document.getElementById('preview-message-body');
+      const timeEl = document.getElementById('preview-time');
+      const sendBtn = document.getElementById('preview-send-btn');
+
+      const msg = buildMessage(target);
+      const formattedHp = cleanPhoneNumber(target.noHp);
+
+      nameEl.textContent = `${target.nama} (${target.noHp})`;
+      bodyEl.textContent = msg;
+
+      const now = new Date();
+      timeEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      const btnLabel = document.getElementById('preview-send-btn-label');
+      if (waMode === 'web') {
+        sendBtn.href = `https://web.whatsapp.com/send?phone=${formattedHp}&text=${encodeURIComponent(msg)}`;
+        if (btnLabel) btnLabel.textContent = 'Buka WhatsApp Web';
+      } else {
+        sendBtn.href = `https://wa.me/${formattedHp}?text=${encodeURIComponent(msg)}`;
+        if (btnLabel) btnLabel.textContent = 'Buka WhatsApp App';
+      }
+      sendBtn.onclick = () => {
+        markDone(target.id);
+        closePreviewModal();
+      };
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      requestAnimationFrame(() => {
+        card.classList.remove('scale-95', 'opacity-0');
+      });
+    }
+
+    function closePreviewModal() {
+      const modal = document.getElementById('preview-modal');
+      const card = document.getElementById('preview-modal-card');
+
+      card.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        activePreviewTarget = null;
+      }, 200);
+    }
+
+    function copyPreviewText() {
+      if (!activePreviewTarget) return;
+      const text = buildMessage(activePreviewTarget);
+      copyToClipboard(text, 'Teks reminder');
+    }
+
+    // Copy to clipboard helper dengan fallback
+    function copyToClipboard(text, label = 'Teks') {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`${label} berhasil disalin ke clipboard!`, 'success');
+        }).catch(() => {
+          fallbackCopyText(text, label);
+        });
+      } else {
+        fallbackCopyText(text, label);
+      }
+    }
+
+    // Fallback copy text untuk kompatibilitas penuh
+    function fallbackCopyText(text, label = 'Teks') {
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (successful) {
+          showToast(`${label} berhasil disalin ke clipboard!`, 'success');
+        } else {
+          showToast('Gagal menyalin ke clipboard.', 'error');
+        }
+      } catch (err) {
+        showToast('Gagal menyalin ke clipboard.', 'error');
+      }
+    }
+
+    function copyPesanById(id) {
+      const target = dataset.find(d => d.id === id);
+      if (!target) return;
+      copyToClipboard(buildMessage(target), 'Teks reminder');
+    }
+
+    // Reset Data
+    function resetData() {
+      if (dataset.length === 0) {
+        showToast('Data saat ini sudah kosong.', 'info');
+        return;
+      }
+      if (confirm('Apakah Anda yakin ingin mengosongkan semua data dari browser?')) {
+        dataset = [];
+        saveDataset();
+        document.getElementById('excel-file').value = '';
+        document.getElementById('file-info').textContent = 'Belum ada file aktif';
+        renderTable();
+        showToast('Data berhasil dikosongkan.', 'info');
+      }
+    }
+
+    // Ekspor Excel Fleksibel (Semua / Belum / Selesai)
+    function downloadHasil() {
+      if (dataset.length === 0) {
+        showToast('Tidak ada data yang dapat diekspor.', 'warning');
+        return;
+      }
+
+      let dataToExport = dataset;
+      let sheetName = 'Semua_Pelanggan';
+      let filePrefix = 'YRES_Export_Semua';
+
+      if (currentFilter === 'Selesai') {
+        dataToExport = dataset.filter(d => d.status === 'Selesai');
+        sheetName = 'Peserta_Selesai';
+        filePrefix = 'YRES_Export_Selesai';
+      } else if (currentFilter === 'Belum') {
+        dataToExport = dataset.filter(d => d.status !== 'Selesai');
+        sheetName = 'Peserta_Belum_Selesai';
+        filePrefix = 'YRES_Export_Belum';
+      }
+
+      if (dataToExport.length === 0) {
+        showToast(`Tidak ada data ${currentFilter === 'Selesai' ? 'selesai' : 'belum selesai'} untuk diekspor.`, 'warning');
+        return;
+      }
+
+      const exportData = dataToExport.map((item, idx) => ({
+        'No': idx + 1,
+        'No Kartu': item.noKartu,
+        'Nama': item.nama,
+        'No HP': item.noHp,
+        'Nominal': item.nominal,
+        'Status': item.status,
+        'Jam Selesai': item.jamSelesai || '-'
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      XLSX.writeFile(workbook, `${filePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      showToast(`File Excel (${sheetName.replace(/_/g, ' ')}) berhasil diunduh.`, 'success');
+    }
+
+    // Kompatibilitas jika dipanggil dari luar
+    function downloadHasilTersambung() {
+      setFilter('Selesai');
+      downloadHasil();
+    }
+
+    // ===== USER MANUAL MODAL =====
+    function openUserManualModal(tabId) {
+      const modal = document.getElementById('user-manual-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      switchManualTab(tabId || 'tab-mulai');
+    }
+
+    function closeUserManualModal() {
+      const modal = document.getElementById('user-manual-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleManualBackdrop(e) {
+      if (e.target === document.getElementById('user-manual-modal')) {
+        closeUserManualModal();
+      }
+    }
+
+    function switchManualTab(tabId) {
+      // Hide all tab contents
+      document.querySelectorAll('.manual-tab-content').forEach(el => el.classList.add('hidden'));
+      // Reset all tab buttons
+      document.querySelectorAll('.manual-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white/20', 'font-bold', 'text-white');
+        btn.classList.add('font-semibold', 'text-white/70');
+      });
+
+      // Show selected tab content
+      const tab = document.getElementById(tabId);
+      if (tab) tab.classList.remove('hidden');
+
+      // Activate selected tab button
+      const btnId = 'tab-btn-' + tabId.replace('tab-', '');
+      const activeBtn = document.getElementById(btnId);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white/20', 'font-bold', 'text-white');
+        activeBtn.classList.remove('font-semibold', 'text-white/70');
+      }
+    }
+
+    // ===== SORTING: Nama & Nominal =====
+    function cycleSortNama() {
+      if (sortNama === 'default') sortNama = 'az';
+      else if (sortNama === 'az') sortNama = 'za';
+      else sortNama = 'default';
+      sortNominal = 'default'; // reset kolom lain
+      renderTable();
+      const labels = { default: 'Default', az: 'A → Z', za: 'Z → A' };
+      showToast(`Urutan Nama: ${labels[sortNama]}`, 'info');
+    }
+
+    function cycleSortNominal() {
+      if (sortNominal === 'default') sortNominal = 'high';
+      else if (sortNominal === 'high') sortNominal = 'low';
+      else sortNominal = 'default';
+      sortNama = 'default'; // reset kolom lain
+      renderTable();
+      const labels = { default: 'Default', high: 'Tertinggi', low: 'Terendah' };
+      showToast(`Urutan Nominal: ${labels[sortNominal]}`, 'info');
+    }
+
+    function updateSortIcons() {
+      const namaIcon = document.getElementById('sort-icon-nama');
+      const nominalIcon = document.getElementById('sort-icon-nominal');
+
+      if (namaIcon) {
+        const isActive = sortNama !== 'default';
+        if (sortNama === 'az') namaIcon.innerHTML = '<i class="fa-solid fa-sort-up"></i>';
+        else if (sortNama === 'za') namaIcon.innerHTML = '<i class="fa-solid fa-sort-down"></i>';
+        else namaIcon.innerHTML = '<i class="fa-solid fa-sort"></i>';
+        namaIcon.className = isActive
+          ? 'text-[10px] text-brand-500 dark:text-brand-400'
+          : 'text-[10px] text-slate-300 dark:text-slate-600';
+      }
+
+      if (nominalIcon) {
+        const isActive = sortNominal !== 'default';
+        if (sortNominal === 'high') nominalIcon.innerHTML = '<i class="fa-solid fa-sort-down"></i>';
+        else if (sortNominal === 'low') nominalIcon.innerHTML = '<i class="fa-solid fa-sort-up"></i>';
+        else nominalIcon.innerHTML = '<i class="fa-solid fa-sort"></i>';
+        nominalIcon.className = isActive
+          ? 'text-[10px] text-brand-500 dark:text-brand-400'
+          : 'text-[10px] text-slate-300 dark:text-slate-600';
+      }
+    }
+
+    // R-32: Keyboard accessibility — close modals with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const previewModal = document.getElementById('preview-modal');
+        if (previewModal && !previewModal.classList.contains('hidden')) {
+          closePreviewModal();
+          return;
+        }
+        const pairModal = document.getElementById('pair-guide-modal');
+        if (pairModal && !pairModal.classList.contains('hidden')) {
+          closePairGuideModal();
+          return;
+        }
+        const manualModal = document.getElementById('user-manual-modal');
+        if (manualModal && !manualModal.classList.contains('hidden')) {
+          closeUserManualModal();
+          return;
+        }
+      }
+    });
+  </script>
 </body>
 
 </html>
